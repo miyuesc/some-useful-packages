@@ -26,7 +26,7 @@
       </div>
       <div class="path-list">
         <div class="path-item">实例路径：</div>
-        <div class="path-item" v-for="(i, k) in overlayPath" :key="k">
+        <div class="path-item" v-for="(path, k) in overlayPath" :key="k">
           <span class="path-index">{{ k + 1 }}</span>
           <el-input size="small" v-model="overlayPath[k]">
             <i
@@ -40,7 +40,7 @@
             <i
                 class="el-icon-circle-plus-outline"
                 title="添加拐点"
-                @click="addTurningPoint(i, k)"
+                @click="addTurningPoint(path, k)"
             ></i>
           </el-divider>
           <el-divider v-else />
@@ -114,7 +114,7 @@ export default {
       if (!this.$refs.map) {
         return this.initMap(center)
       }
-      this.map = new window.AMap.Map(this.$refs.map, {
+      this._map = new window.AMap.Map(this.$refs.map, {
         center: center,
         zoom: this.zoom,
         mapStyle: "amap://styles/light",
@@ -125,15 +125,15 @@ export default {
         window.AMap.plugin("AMap.MouseTool");
       }
       // 修改鼠标样式( 十字型 )
-      this.map.setDefaultCursor("crosshair");
+      this._map.setDefaultCursor("crosshair");
     },
 
     // 加载多边形/折线
     async initOverlay() {
-      if (this.overlay) this.map.clearMap();
+      this.clearMap();
       setTimeout(() => {
         if (this.type === "polygon" || this.type === "area") {
-          this.overlay = new window.AMap.Polygon({
+          this._overlay = new window.AMap.Polygon({
             path: this.overlayPath.map(o => o.split(",")),
             strokeColor: "#FF33FF",
             strokeWeight: 2,
@@ -143,7 +143,7 @@ export default {
             zIndex: 50
           });
         } else {
-          this.overlay = new window.AMap.Polyline({
+          this._overlay = new window.AMap.Polyline({
             path: this.overlayPath.map(o => o.split(",")),
             strokeColor: "#2d8cf0",
             strokeWeight: 4,
@@ -170,10 +170,10 @@ export default {
             markers.push(marker);
           }
         } else {
-          this.overlayPath.forEach((i, k) => {
+          this.overlayPath.forEach((path, k) => {
             if (k % 2 === 0) {
               let marker = new window.AMap.Marker({
-                position: i.split(","),
+                position: path.split(","),
                 label: {
                   offset: new window.AMap.Pixel(0, -8), //设置文本标注偏移量
                   content: `<div class='q-overplay-edit_info'>${k + 1}</div>`, //设置文本标注内容
@@ -184,30 +184,35 @@ export default {
             }
           });
         }
-        this.map.add([this.overlay, ...markers]);
-        this.map.setFitView();
+        this._map.add([this._overlay, ...markers]);
+        this._map.setFitView();
       }, 1);
     },
 
     // draw
     redrawOverlay() {
-      if (this.map) this.map.clearMap();
+      if (this._map) this._map.clearMap();
       this.overlayPath = [];
-      this.mouseTool = new window.AMap.MouseTool(this.map);
+      this._mouseTool = new window.AMap.MouseTool(this._map);
       if (this.type === "polygon" || this.type === "area") {
-        this.mouseTool.polygon({
-          fillColor: "#00b0ff",
-          strokeColor: "#80d8ff"
+        this._mouseTool.polygon({
+          strokeColor: "#FF33FF",
+          strokeWeight: 2,
+          strokeOpacity: 0.2,
+          fillOpacity: 0.4,
+          fillColor: "#1791fc",
         });
       } else {
-        this.mouseTool.polyline({
+        this._mouseTool.polyline({
+          strokeColor: "#2d8cf0",
           strokeWeight: 4,
-          strokeColor: "#2d8cf0"
+          zIndex: 50
         });
       }
-      this.mouseTool.on("draw", e => {
+      this._mouseTool.on("draw", e => {
+        console.log('mouseToolObject', e)
         this.overlayPath = e.obj.getPath().map(o => o.lng + "," + o.lat);
-        this.mouseTool.close();
+        this._mouseTool.close();
       });
     },
 
@@ -233,8 +238,6 @@ export default {
 
     closeDialog() {
       this.$emit("update:visible", false);
-      this.overlayPath = [];
-      this.overlay = null;
     },
 
     submitDrawn() {
@@ -263,13 +266,15 @@ export default {
     },
 
     clearMap() {
-      if (this.map) this.map.clearMap();
+      if (this._map) this._map.clearMap();
     }
   },
   beforeDestroy() {
-    if (this.map) this.map.destroy();
+    if (this._map) this._map.destroy();
     this.overlayPath = [];
-    this.overlay = null;
+    this._overlay = null;
+    this._map = null;
+    this._mouseTool = null;
   },
   watch: {
     visible: {
@@ -278,8 +283,9 @@ export default {
         this.$nextTick(async () => {
           if (this.value && this.value.points && this.value.points.length) {
             this.overlayPath = this.value.points.map(i => i.join(","));
-            this.initMap(this.mapCenter).then(async () => this.initOverlay());
+            this.initMap(this.mapCenter).then(() => this.initOverlay());
           } else {
+            this.overlayPath = []
             await this.initMap(this.mapCenter);
           }
         });
@@ -288,8 +294,8 @@ export default {
     },
     overlayPath: {
       handler: function () {
-        if (this.map) {
-          this.$nextTick(async () => await this.initOverlay());
+        if (this._map) {
+          this.$nextTick(() => this.initOverlay());
         } else {
           this.$nextTick(async () => {
             await this.initMap(this.center);
