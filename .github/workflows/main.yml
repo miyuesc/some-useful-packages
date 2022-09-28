@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: BPMN-CI
+name: VUE-CI
 
 # Controls when the action will run.
 on:
@@ -37,6 +37,7 @@ jobs:
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # 该workflow需要操作repo，因此需要一个密钥，下面会讲到如何获取这个密钥
           ACCESS_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
           # 发布到的分支
