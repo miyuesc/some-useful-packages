@@ -1,26 +1,35 @@
 <template>
   <div id="app">
-    <div>
-      <p>
-        <el-switch
-            v-model="type"
-            size="small"
-            active-text="区域"
-            inactive-text="折线"
-            active-value="polygon"
-            inactive-value="line"
+    <el-collapse>
+      <el-collapse-item title="地图线面编辑" name="map-edit">
+        <p>
+          <el-switch
+              v-model="type"
+              size="small"
+              active-text="区域"
+              inactive-text="折线"
+              active-value="polygon"
+              inactive-value="line"
+          />
+          <el-button type="primary" size="small" @click="mapVisible = true">编辑</el-button>
+        </p>
+        <p>address: {{ address }}</p>
+        <p>points: {{ points }}</p>
+        <map-overlay-edit  v-model="overplay" :type="type" :visible.sync="mapVisible" /></el-collapse-item>
+      <el-collapse-item title="详情卡片" name="detail-info">
+        <detail-info-board :details="objectDetails" :prop="objectDetailProps" />
+      </el-collapse-item>
+      <el-collapse-item title="公式编辑器" name="formula-designer">
+        <p>Expression: {{expression}}</p>
+        <p>ExpressionString: {{expressionString}}</p>
+        <p>ExpressionParameters: {{expressionParameters}}</p>
+        <formula-designer
+            :form-parameters="[]"
+            :selected-parameters="selectionParameters"
+            @change="updateFlowExpression"
         />
-      </p>
-      <p>
-        <el-button type="primary" size="small" @click="mapVisible = true">编辑</el-button>
-      </p>
-      <p>address: {{ address }}</p>
-      <p>points: {{ points }}</p>
-    </div>
-    <map-overlay-edit  v-model="overplay" :type="type" :visible.sync="mapVisible" />
-
-
-    <detail-info-board :details="objectDetails" :prop="objectDetailProps" />
+      </el-collapse-item>
+    </el-collapse>
   </div>
 </template>
 
@@ -28,9 +37,10 @@
 
 import MapOverlayEdit from "@/somponents/MapOverlayEdit";
 import DetailInfoBoard from "@/somponents/DetailInfoBoard";
+import FormulaDesigner from "@/somponents/FormulaDesigner";
 export default {
   name: 'App',
-  components: {DetailInfoBoard, MapOverlayEdit},
+  components: {FormulaDesigner, DetailInfoBoard, MapOverlayEdit},
   data () {
     return {
       mapVisible: false,
@@ -77,7 +87,10 @@ export default {
         "updateDt": "2022-09-19 17:09:18",
         "otherFlag": true,
         "icon": null
-      }
+      },
+      expression: '',
+      expressionString:'',
+      expressionParameters: []
     }
   },
   computed: {
@@ -87,8 +100,18 @@ export default {
     points() {
       if (!this.overplay.points || !this.overplay.points.length) return "暂未绘制区域";
       return this.overplay.points.map(point => `[${point.join(",")}]`).join(", ");
+    },
+    selectionParameters() {
+      return [];
     }
   },
+  methods: {
+    updateFlowExpression(expression, parameters, expressionString) {
+      this.expression = expression;
+      this.expressionString = expressionString;
+      this.expressionParameters = JSON.parse(JSON.stringify(parameters));
+    }
+  }
 }
 </script>
 
