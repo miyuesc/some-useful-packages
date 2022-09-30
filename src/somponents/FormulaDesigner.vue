@@ -3,6 +3,7 @@
     <div
         class="q-formula__editor"
         :class="{ 'is-focus': isActive && activeOperatorIndex === null, 'is-error': isError }"
+        ref="formula-editor"
         @click.stop="handleEditExpression"
     >
       <template v-for="(op, opk) in designedExpression">
@@ -185,8 +186,20 @@ export default {
         {
           label: "(  )",
           value: ["(", ")"],
-          name: "括号",
+          name: "小括号",
           key: "()"
+        },
+        {
+          label: "[ ]",
+          value: ["[", "]"],
+          name: "中括号",
+          key: "[]"
+        },
+        {
+          label: "{  }",
+          value: ["{", "}"],
+          name: "大括号",
+          key: "{}"
         },
         {
           label: "文本",
@@ -235,6 +248,7 @@ export default {
     // 键盘快捷键
     handleKeydown(e) {
       if (!this.reactKeydownEvent) return;
+      if (document.activeElement !== document.body) return;
       switch (e.code.toLocaleLowerCase()) {
         case "backspace":
           this.handleDeleteOperator();
@@ -308,7 +322,7 @@ export default {
       if (special) {
         // 特殊项
         // 括号
-        if (parameterSelf.key === "()") {
+        if (['()', '[]', '{}'].includes(parameterSelf.key)) {
           let p = parameterSelf.value;
           this.designedExpression.splice(index, 0, { label: p[0], value: p[0], name: p[0] });
           this.designedExpression.splice(index + 1, 0, { label: p[1], value: p[1], name: p[1] });

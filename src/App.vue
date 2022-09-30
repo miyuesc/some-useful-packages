@@ -24,7 +24,7 @@
         <p>ExpressionString: {{expressionString}}</p>
         <p>ExpressionParameters: {{expressionParameters}}</p>
         <formula-designer
-            :form-parameters="[]"
+            :form-parameters="formParameters"
             :selected-parameters="selectionParameters"
             @change="updateFlowExpression"
         />
@@ -90,7 +90,13 @@ export default {
       },
       expression: '',
       expressionString:'',
-      expressionParameters: []
+      expressionParameters: [],
+      formParameters: [
+        {label: "选项一", value: 'value1', key: 'no01'},
+        {label: "选项二", value: 'value2', key: 'no02'},
+        {label: "选项三", value: 'value3', key: 'no03'},
+        {label: "选项四", value: 'value4', key: 'no04'},
+      ]
     }
   },
   computed: {
