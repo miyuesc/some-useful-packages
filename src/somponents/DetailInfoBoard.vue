@@ -38,9 +38,9 @@ export default {
           onlyRender = this.prop[propKey].onlyRender;
           const format = this.prop[propKey].format;
           value =
-              format && typeof format === "function"
-                  ? (format(propKey, this.details[propKey]) || "-").toString()
-                  : (this.details[propKey] || "-").toString();
+            format && typeof format === "function"
+              ? (format(propKey, this.details[propKey]) || "-").toString()
+              : (this.details[propKey] || "-").toString();
         }
         !hidden && list.push({ index, label, value, render, onlyRender });
         return list;
@@ -57,25 +57,25 @@ export default {
       h("el-row", { props: { gutter: 16 } }, [
         this.$scopedSlots.append && this.$scopedSlots.append(),
         this.detailInfoList.map((item) =>
-            h(
-                "el-col",
-                {
-                  props: this.sizes,
-                  class: "info-item-content",
-                  key: item.index
-                },
-                item.onlyRender
-                    ? [h("div", { class: "info-content_label" }, item.label), item.render && item.render(h, item)]
-                    : [
-                      h("div", { class: "info-content_label" }, item.label),
-                      item.value.length < 32
-                          ? h("div", { class: "info-content_value" }, item.value)
-                          : h("el-tooltip", { props: { content: item.value } }, [
-                            h("div", { class: "info-content_value" }, item.value)
-                          ]),
-                      item.render && item.render(h, item)
-                    ]
-            )
+          h(
+            "el-col",
+            {
+              props: this.sizes,
+              class: "info-item-content",
+              key: item.index
+            },
+            item.onlyRender
+              ? [h("div", { class: "info-content_label" }, item.label), item.render && item.render(h, item)]
+              : [
+                  h("div", { class: "info-content_label" }, item.label),
+                  item.value.length < 32
+                    ? h("div", { class: "info-content_value" }, item.value)
+                    : h("el-tooltip", { props: { content: item.value } }, [
+                        h("div", { class: "info-content_value" }, item.value)
+                      ]),
+                  item.render && item.render(h, item)
+                ]
+          )
         ),
         this.$scopedSlots.prepend && this.$scopedSlots.prepend()
       ])

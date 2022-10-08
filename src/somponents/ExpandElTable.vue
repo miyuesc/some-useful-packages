@@ -2,7 +2,6 @@
 import { Table } from "element-ui";
 import { parseHeight } from "element-ui/packages/table/src/util";
 
-
 // 支持 max-height 的 el-table
 export default {
   name: "ExpandElTable",

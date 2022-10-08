@@ -1,27 +1,41 @@
 <template>
   <div class="q-formula-designer" v-click-outside="() => (isActive = false)">
     <div
-        class="q-formula__editor"
-        :class="{ 'is-focus': isActive && activeOperatorIndex === null, 'is-error': isError }"
-        ref="formula-editor"
-        @click.stop="handleEditExpression"
+      class="q-formula__editor"
+      :class="{ 'is-focus': isActive && activeOperatorIndex === null, 'is-error': isError }"
+      ref="formula-editor"
+      @click.stop="handleEditExpression"
     >
       <template v-for="(op, opk) in designedExpression">
         <div
-            class="q-formula__editor-cursor"
-            :class="{ 'is-focus': isActive && activeOperatorIndex === opk }"
-            :key="'cursor' + opk"
-            @click.stop="activeOperatorIndex = opk"
+          class="q-formula__editor-cursor"
+          :class="{ 'is-focus': isActive && activeOperatorIndex === opk }"
+          :key="'cursor' + opk"
+          @click.stop="activeOperatorIndex = opk"
         ></div>
         <div class="q-formula__operator" :key="'operator' + opk">
-          <el-input v-if="op.key && op.key === 'string'" v-model="op.value" size="mini" clearable @focus="keyboardFocus = false" />
-          <el-input-number v-else-if="op.key && op.key === 'number'" v-model="op.value" size="mini" clearable @focus="keyboardFocus = false" />
-          <el-button v-else size="mini">{{op.label}}</el-button>
+          <el-input
+            v-if="op.key && op.key === 'string'"
+            v-model="op.value"
+            size="mini"
+            clearable
+            @focus="keyboardFocus = false"
+          />
+          <el-input-number
+            v-else-if="op.key && op.key === 'number'"
+            v-model="op.value"
+            size="mini"
+            clearable
+            @focus="keyboardFocus = false"
+          />
+          <el-button v-else size="mini">{{ op.label }}</el-button>
         </div>
       </template>
     </div>
     <div class="q-formula__previewer">
-      <span class="q-formula__previewer-item" v-for="(t, k) in designedExpression" :key="k">{{ t.key && t.key !== "()" ? t.value : t.label }}</span>
+      <span class="q-formula__previewer-item" v-for="(t, k) in designedExpression" :key="k">{{
+        t.key && t.key !== "()" ? t.value : t.label
+      }}</span>
     </div>
     <el-collapse-transition>
       <div class="q-formula__parameters" v-show="isActive">
@@ -100,7 +114,7 @@ export default {
     checkActive: {
       type: String,
       default: ""
-    },
+    }
   },
   data() {
     return {
@@ -135,7 +149,7 @@ export default {
           name: "余"
         }
       ],
-      logicalOperators:[
+      logicalOperators: [
         {
           label: "且",
           value: "&&",
@@ -221,14 +235,18 @@ export default {
       ],
       designedExpression: [],
       onChecking: false
-    }
+    };
   },
   computed: {
     expressionValue() {
       if (!this.designedExpression.length) return "";
 
       if (this.parameterType === "formItem") {
-        return "${" + `${this.designedExpression.map((o) => (o.key === "string" ? '"' + o.value + '"' : o.value)).join(" ")}` + "}";
+        return (
+          "${" +
+          `${this.designedExpression.map((o) => (o.key === "string" ? '"' + o.value + '"' : o.value)).join(" ")}` +
+          "}"
+        );
       }
 
       return `${this.designedExpression.map((o) => o.value).join(" ")}`;
@@ -238,7 +256,7 @@ export default {
     },
     reactKeydownEvent() {
       return this.keyboardFocus;
-    },
+    }
   },
   methods: {
     // 失去焦点
@@ -322,7 +340,7 @@ export default {
       if (special) {
         // 特殊项
         // 括号
-        if (['()', '[]', '{}'].includes(parameterSelf.key)) {
+        if (["()", "[]", "{}"].includes(parameterSelf.key)) {
           let p = parameterSelf.value;
           this.designedExpression.splice(index, 0, { label: p[0], value: p[0], name: p[0] });
           this.designedExpression.splice(index + 1, 0, { label: p[1], value: p[1], name: p[1] });
@@ -347,13 +365,12 @@ export default {
         this.onChecking = true;
         setTimeout(() => {
           this.onChecking = false;
-        }, 1000)
+        }, 1000);
       } catch (e) {
         this.onChecking = false;
       }
     },
     unusedEditing(e) {
-      console.log(e);
       this.isActive = false;
       this.keyboardFocus = false;
     }
@@ -385,7 +402,6 @@ export default {
       deep: true,
       handler(val) {
         this.isActive = false;
-        console.log(val)
         if (val && val.length) {
           this.designedExpression = JSON.parse(JSON.stringify(this.selectedParameters));
         } else {
@@ -394,7 +410,7 @@ export default {
       }
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
