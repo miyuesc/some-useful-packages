@@ -15,6 +15,7 @@
 import Demo1 from "@/pages/demo1";
 import Demo2 from "@/pages/demo2";
 import Demo3 from "@/pages/demo3";
+import Demo4 from "@/pages/demo4";
 
 export default {
   name: "App",
@@ -25,14 +26,15 @@ export default {
       componentsList: [
         { name: "地图线面编辑", component: Demo1 },
         { name: "详情卡片", component: Demo2 },
-        { name: "公式编辑器", component: Demo3 }
+        { name: "公式编辑器", component: Demo3 },
+        { name: "圆环菜单", component: Demo4 }
       ]
     };
   }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

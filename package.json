@@ -11,7 +11,7 @@
     "@amap/amap-jsapi-loader": "^1.0.1",
     "core-js": "^3.25.1",
     "element-ui": "^2.15.9",
-    "normalize.css": "^8.0.1",
+    "reset-css": "^5.0.1",
     "vue": "^2.7.10",
     "vue-click-outside": "^1.1.0",
     "vue-router": "^3.6.5"

@@ -8,8 +8,9 @@ Vue.use(ElementUI);
 import ClickOutside from "vue-click-outside";
 Vue.directive("click-outside", ClickOutside);
 
-import "normalize.css/normalize.css";
+import "reset-css";
 import "element-ui/lib/theme-chalk/index.css";
+import "./styles/demo.scss";
 
 import App from "./App.vue";
 new Vue({
