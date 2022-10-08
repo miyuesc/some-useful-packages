@@ -44,7 +44,9 @@ export default {
 
 <style scoped lang="scss">
 .circle-menu-button {
-  height: 100%;
+  width: 100%;
+  padding: 200px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -116,6 +118,11 @@ export default {
   text-align: center;
   i {
     pointer-events: auto;
+    display: inline-block;
+    cursor: pointer;
+  }
+  &:hover {
+    color: #5c67ff;
   }
 }
 

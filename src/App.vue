@@ -16,6 +16,7 @@ import Demo1 from "@/pages/demo1";
 import Demo2 from "@/pages/demo2";
 import Demo3 from "@/pages/demo3";
 import Demo4 from "@/pages/demo4";
+import Demo5 from "@/pages/demo5";
 
 export default {
   name: "App",
@@ -27,7 +28,8 @@ export default {
         { name: "地图线面编辑", component: Demo1 },
         { name: "详情卡片", component: Demo2 },
         { name: "公式编辑器", component: Demo3 },
-        { name: "圆环菜单", component: Demo4 }
+        { name: "圆环菜单", component: Demo4 },
+        { name: "BackdropFilter", component: Demo5 }
       ]
     };
   }
@@ -86,8 +88,8 @@ export default {
 .slide-left-enter-active,
 .slide-left-leave-active {
   will-change: transform;
-  transition: all 0.2s;
   width: 100%;
+  transition: all 0.2s;
   position: absolute;
   z-index: 99;
 }

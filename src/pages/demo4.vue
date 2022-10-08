@@ -1,5 +1,5 @@
 <template>
-  <div class="demo-page" style="padding: 200px">
+  <div class="demo-page">
     <circle-menu-button />
   </div>
 </template>
