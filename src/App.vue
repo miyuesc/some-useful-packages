@@ -1,11 +1,18 @@
 <template>
   <div id="app">
     <ul class="page-slider">
-      <li v-for="item in componentsList" :key="item.name" @click="activeComponent = item.component">{{ item.name }}</li>
+      <li
+        v-for="item in componentsList"
+        :key="item.key"
+        :class="{ 'is-active': active.key === item.key }"
+        @click="setActive(item)"
+      >
+        {{ item.name }}
+      </li>
     </ul>
     <div class="page-content">
       <transition name="slide-left">
-        <component :is="activeComponent" />
+        <component :is="active.component" />
       </transition>
     </div>
   </div>
@@ -24,16 +31,25 @@ export default {
   components: { Demo1, Demo2, Demo3 },
   data() {
     return {
-      activeComponent: null,
+      active: {
+        key: 1,
+        component: Demo1
+      },
       componentsList: [
-        { name: "地图线面编辑", component: Demo1 },
-        { name: "详情卡片", component: Demo2 },
-        { name: "公式编辑器", component: Demo3 },
-        { name: "圆环菜单", component: Demo4 },
-        { name: "BackdropFilter", component: Demo5 },
-        { name: "Splitting Demo 01", component: Demo6 }
+        { name: "地图线面编辑", component: Demo1, key: 1 },
+        { name: "详情卡片", component: Demo2, key: 2 },
+        { name: "公式编辑器", component: Demo3, key: 3 },
+        { name: "圆环菜单", component: Demo4, key: 4 },
+        { name: "BackdropFilter", component: Demo5, key: 5 },
+        { name: "Splitting Demo 01", component: Demo6, key: 6 }
       ]
     };
+  },
+  methods: {
+    setActive({ key, component }) {
+      this.active.key = key;
+      this.active.component = component;
+    }
   }
 };
 </script>
@@ -59,12 +75,20 @@ export default {
   display: flex;
   flex-direction: column;
   list-style: none;
-  padding: 0 12px;
+  padding: 12px;
   li {
     margin-bottom: 12px;
     line-height: 24px;
-    font-size: 20px;
+    font-size: 16px;
+    padding: 8px 16px;
     cursor: pointer;
+    transition: all ease 0.2s;
+    border-radius: 4px;
+    &.is-active,
+    &:hover {
+      background-color: #2bc0e4;
+      color: #010101;
+    }
   }
 }
 .page-content {
