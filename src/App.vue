@@ -25,6 +25,7 @@ import Demo3 from "@/pages/demo3";
 import Demo4 from "@/pages/demo4";
 import Demo5 from "@/pages/demo5";
 import Demo6 from "@/pages/demo6";
+import Demo7 from "@/pages/demo7";
 
 export default {
   name: "App",
@@ -41,7 +42,8 @@ export default {
         { name: "公式编辑器", component: Demo3, key: 3 },
         { name: "圆环菜单", component: Demo4, key: 4 },
         { name: "BackdropFilter", component: Demo5, key: 5 },
-        { name: "Splitting Demo 01", component: Demo6, key: 6 }
+        { name: "Splitting Demo 01", component: Demo6, key: 6 },
+        { name: "JsonEditor", component: Demo7, key: 7 }
       ]
     };
   },

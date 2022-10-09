@@ -11,6 +11,7 @@
     "@amap/amap-jsapi-loader": "^1.0.1",
     "core-js": "^3.25.1",
     "element-ui": "^2.15.9",
+    "jsoneditor": "^9.9.2",
     "reset-css": "^5.0.1",
     "splitting": "^1.0.6",
     "vue": "^2.7.10",

@@ -1,6 +1,6 @@
 <template>
   <div class="circle-menu-button" v-click-outside="() => (isActive = false)">
-    <nav :class="{ menu: true, active: isActive }">
+    <div :class="{ menu: true, active: isActive }">
       <label class="menu-dots" for="menu" @click="isActive = !isActive">
         <span class="menu-dot"></span>
         <span class="menu-dot"></span>
@@ -11,7 +11,7 @@
           <i :class="m.icon" />
         </li>
       </ul>
-    </nav>
+    </div>
   </div>
 </template>
 
@@ -34,8 +34,10 @@ export default {
   computed: {
     iconStyle() {
       const length = this.menus.length;
+      const transitionStep = 0.3 / (this.menus.length - 1);
       return (i) => {
-        return { transform: `rotate(${Math.floor((i * 360) / length)}deg)`, transitionDelay: `${0.05 * i}s` };
+        return { transform: `rotate(${Math.floor((i * 360) / length)}deg)`, transitionDelay: `${transitionStep * i}s` };
+        // return {};
       };
     }
   }
@@ -91,16 +93,16 @@ export default {
 .menu-items,
 .menu-item {
   position: absolute;
-  top: -3.4rem;
-  left: -3.4rem;
-  right: -3.4rem;
-  bottom: -3.4rem;
   transition: 0.3s;
   pointer-events: none;
 }
 .menu-items {
   opacity: 0;
   color: #ffffff;
+  top: -3.4rem;
+  left: -3.4rem;
+  right: -3.4rem;
+  bottom: -3.4rem;
 }
 .menu.active .menu-items {
   opacity: 1;
