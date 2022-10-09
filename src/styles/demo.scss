@@ -1,4 +1,10 @@
+@import "splitting/dist/splitting.css";
+@import "splitting/dist/splitting-cells.css";
+
 .demo-page {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
   p {
     line-height: 2rem;
   }

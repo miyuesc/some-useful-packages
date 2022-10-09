@@ -1,7 +1,5 @@
 <template>
-  <div class="demo-page">
-    <circle-menu-button />
-  </div>
+  <circle-menu-button />
 </template>
 
 <script>
@@ -11,5 +9,3 @@ export default {
   components: { CircleMenuButton }
 };
 </script>
-
-<style scoped></style>

@@ -1,7 +1,5 @@
 <template>
-  <div class="demo-page">
-    <backdrop-filter />
-  </div>
+  <backdrop-filter />
 </template>
 
 <script>

@@ -1,25 +1,19 @@
 <template>
   <el-dialog
-      title="实例范围选择"
-      :close-on-click-modal="false"
-      destroy-on-close
-      append-to-body
-      :visible="visible"
-      width="1000px"
-      @close="closeDialog"
+    title="实例范围选择"
+    :close-on-click-modal="false"
+    destroy-on-close
+    append-to-body
+    :visible="visible"
+    width="1000px"
+    @close="closeDialog"
   >
     <div class="edit-main-body">
-      <div
-          style="position: relative; width: 100%; height: 100%; grid-column: 1 / 3; grid-row: 1 / 3"
-      >
+      <div style="position: relative; width: 100%; height: 100%; grid-column: 1 / 3; grid-row: 1 / 3">
         <div ref="map" class="q-overplay-edit_map"></div>
         <div class="edit-btns" v-if="!disabled">
-          <el-button
-              size="small"
-              type="primary"
-              v-if="overlayPath && overlayPath.length"
-              @click="redrawOverlay"
-          >重新绘制</el-button
+          <el-button size="small" type="primary" v-if="overlayPath && overlayPath.length" @click="redrawOverlay"
+            >重新绘制</el-button
           >
           <el-button size="small" type="primary" v-else @click="redrawOverlay">绘制</el-button>
         </div>
@@ -30,32 +24,24 @@
           <span class="path-index">{{ k + 1 }}</span>
           <el-input size="small" v-model="overlayPath[k]">
             <i
-                v-if="!disabled"
-                slot="suffix"
-                class="el-input__icon el-icon-circle-close"
-                @click="removeTurningPoint(k)"
+              v-if="!disabled"
+              slot="suffix"
+              class="el-input__icon el-icon-circle-close"
+              @click="removeTurningPoint(k)"
             ></i>
           </el-input>
           <el-divider v-if="!disabled && k !== overlayPath.length - 1">
-            <i
-                class="el-icon-circle-plus-outline"
-                title="添加拐点"
-                @click="addTurningPoint(path, k)"
-            ></i>
+            <i class="el-icon-circle-plus-outline" title="添加拐点" @click="addTurningPoint(path, k)"></i>
           </el-divider>
           <el-divider v-else />
         </div>
         <div class="path-item" style="justify-content: center" v-if="!disabled">
-          <el-button size="small" type="primary" round @click="addLastTurningPoint"
-          >添加拐点</el-button
-          >
+          <el-button size="small" type="primary" round @click="addLastTurningPoint">添加拐点</el-button>
         </div>
       </div>
       <div class="dialog-control-btns">
         <el-button size="small" @click="closeDialog">取 消</el-button>
-        <el-button v-show="!disabled" size="small" type="primary" @click="submitDrawn"
-        >确 定</el-button
-        >
+        <el-button v-show="!disabled" size="small" type="primary" @click="submitDrawn">确 定</el-button>
       </div>
     </div>
   </el-dialog>
@@ -112,7 +98,7 @@ export default {
         await MapLoader();
       }
       if (!this.$refs.map) {
-        return this.initMap(center)
+        return this.initMap(center);
       }
       this._map = new window.AMap.Map(this.$refs.map, {
         center: center,
@@ -134,7 +120,7 @@ export default {
       setTimeout(() => {
         if (this.type === "polygon" || this.type === "area") {
           this._overlay = new window.AMap.Polygon({
-            path: this.overlayPath.map(o => o.split(",")),
+            path: this.overlayPath.map((o) => o.split(",")),
             strokeColor: "#FF33FF",
             strokeWeight: 2,
             strokeOpacity: 0.2,
@@ -144,7 +130,7 @@ export default {
           });
         } else {
           this._overlay = new window.AMap.Polyline({
-            path: this.overlayPath.map(o => o.split(",")),
+            path: this.overlayPath.map((o) => o.split(",")),
             strokeColor: "#2d8cf0",
             strokeWeight: 4,
             zIndex: 50
@@ -156,14 +142,12 @@ export default {
           for (let i = 0; i < 5; i++) {
             let marker = new window.AMap.Marker({
               position:
-                  i === 4
-                      ? this.overlayPath[this.overlayPath.length - 1].split(",")
-                      : this.overlayPath[i * dis].split(","),
+                i === 4
+                  ? this.overlayPath[this.overlayPath.length - 1].split(",")
+                  : this.overlayPath[i * dis].split(","),
               label: {
                 offset: new window.AMap.Pixel(0, -8), //设置文本标注偏移量
-                content: `<div class='q-overplay-edit_info'>${
-                    i === 4 ? this.overlayPath.length : i * dis + 1
-                }</div>`, //设置文本标注内容
+                content: `<div class='q-overplay-edit_info'>${i === 4 ? this.overlayPath.length : i * dis + 1}</div>`, //设置文本标注内容
                 direction: "top" //设置文本标注方位
               }
             });
@@ -200,7 +184,7 @@ export default {
           strokeWeight: 2,
           strokeOpacity: 0.2,
           fillOpacity: 0.4,
-          fillColor: "#1791fc",
+          fillColor: "#1791fc"
         });
       } else {
         this._mouseTool.polyline({
@@ -209,9 +193,9 @@ export default {
           zIndex: 50
         });
       }
-      this._mouseTool.on("draw", e => {
-        console.log('mouseToolObject', e)
-        this.overlayPath = e.obj.getPath().map(o => o.lng + "," + o.lat);
+      this._mouseTool.on("draw", (e) => {
+        console.log("mouseToolObject", e);
+        this.overlayPath = e.obj.getPath().map((o) => o.lng + "," + o.lat);
         this._mouseTool.close();
       });
     },
@@ -222,11 +206,7 @@ export default {
 
     addLastTurningPoint() {
       if (this.overlayPath && this.overlayPath.length) {
-        this.overlayPath.splice(
-            this.overlayPath.length - 1,
-            0,
-            this.overlayPath[this.overlayPath.length - 1]
-        );
+        this.overlayPath.splice(this.overlayPath.length - 1, 0, this.overlayPath[this.overlayPath.length - 1]);
       } else {
         this.overlayPath.push(this.mapCenter.join(","));
       }
@@ -247,18 +227,18 @@ export default {
         inputValue: this.value.address || "",
         inputPlaceholder: "请输入提示地址",
         inputErrorMessage: "提示地址不能为空",
-        inputValidator: value => {
+        inputValidator: (value) => {
           return !!value;
         }
       }).then(({ value }) => {
         this.$emit("input", {
           ...this.value,
-          points: this.overlayPath.map(o => o.split(",")),
+          points: this.overlayPath.map((o) => o.split(",")),
           address: value
         });
         this.$emit("change", {
           ...this.value,
-          points: this.overlayPath.map(o => o.split(",")),
+          points: this.overlayPath.map((o) => o.split(",")),
           address: value
         });
         this.$emit("update:visible", false);
@@ -282,10 +262,10 @@ export default {
         if (!newVal) return;
         this.$nextTick(async () => {
           if (this.value && this.value.points && this.value.points.length) {
-            this.overlayPath = this.value.points.map(i => i.join(","));
+            this.overlayPath = this.value.points.map((i) => i.join(","));
             this.initMap(this.mapCenter).then(() => this.initOverlay());
           } else {
-            this.overlayPath = []
+            this.overlayPath = [];
             await this.initMap(this.mapCenter);
           }
         });
@@ -349,7 +329,8 @@ export default {
   top: 0;
   z-index: 2;
   margin-bottom: 8px;
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial,
+    sans-serif;
   border-bottom: 1px dashed #d2d2d2;
 }
 .path-item .path-index {
