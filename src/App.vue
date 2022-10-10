@@ -78,6 +78,7 @@ export default {
   flex-direction: column;
   list-style: none;
   padding: 12px;
+  box-sizing: border-box;
   li {
     margin-bottom: 12px;
     line-height: 24px;
@@ -103,9 +104,9 @@ export default {
   &::before {
     content: "";
     position: absolute;
-    top: 0;
+    top: 12px;
     left: 0;
-    bottom: 0;
+    bottom: 12px;
     width: 1px;
     background-color: #d2d2d2;
   }
