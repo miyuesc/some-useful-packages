@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import MapOverlayEdit from "@/somponents/MapOverlayEdit";
+import MapOverlayEdit from "@/components/MapOverlayEdit";
 
 export default {
   name: "demo1",

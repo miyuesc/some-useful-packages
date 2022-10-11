@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import SplittingText from "@/somponents/SplittingText";
+import SplittingText from "@/components/SplittingText";
 export default {
   name: "demo6",
   components: { SplittingText }

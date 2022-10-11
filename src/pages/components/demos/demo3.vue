@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import FormulaDesigner from "@/somponents/FormulaDesigner";
+import FormulaDesigner from "@/components/FormulaDesigner";
 export default {
   name: "demo3",
   components: { FormulaDesigner },

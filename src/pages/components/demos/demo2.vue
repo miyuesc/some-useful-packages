@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import DetailInfoBoard from "@/somponents/DetailInfoBoard";
+import DetailInfoBoard from "@/components/DetailInfoBoard";
 export default {
   name: "demo2",
   components: { DetailInfoBoard },

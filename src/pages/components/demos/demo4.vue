@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import CircleMenuButton from "@/somponents/CircleMenuButton";
+import CircleMenuButton from "@/components/CircleMenuButton";
 export default {
   name: "demo4",
   components: { CircleMenuButton }

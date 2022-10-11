@@ -13,6 +13,9 @@ import "element-ui/lib/theme-chalk/index.css";
 import "./styles/demo.scss";
 
 import App from "./App.vue";
+import router from "@/router";
+
 new Vue({
+  router,
   render: (h) => h(App)
 }).$mount("#app");

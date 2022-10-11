@@ -8,15 +8,15 @@ import AMapLoader from "@amap/amap-jsapi-loader";
  * @returns {Promise<void>}
  */
 export default async function (v, uiOpts, locaV) {
-    const key = '0d17e9413144a9e08e0f223c135979f5'
-    const version = v || '2.0'
-    const AMapUI = uiOpts || null
-    const Loca = locaV ? { version: locaV } : null
+  const key = "0d17e9413144a9e08e0f223c135979f5";
+  const version = v || "2.0";
+  const AMapUI = uiOpts || null;
+  const Loca = locaV ? { version: locaV } : null;
 
-    return await AMapLoader.load({
-        key,
-        version,
-        AMapUI,
-        Loca
-    })
+  return await AMapLoader.load({
+    key,
+    version,
+    AMapUI,
+    Loca
+  });
 }

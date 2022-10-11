@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import BackdropFilter from "@/somponents/BackdropFilter";
+import BackdropFilter from "@/components/BackdropFilter";
 export default {
   name: "demo5",
   components: { BackdropFilter }
