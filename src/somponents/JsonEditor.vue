@@ -69,25 +69,25 @@ export default {
       this._editor && this._editor.focus();
     },
     get() {
-      this._editor && this._editor.get();
+      return this._editor && this._editor.get();
     },
     getMode() {
-      this._editor && this._editor.getMode();
+      return this._editor && this._editor.getMode();
     },
     getName() {
-      this._editor && this._editor.getName();
+      return this._editor && this._editor.getName();
     },
     getNodesByRange(start, end) {
-      this._editor && this._editor.getNodesByRange(start, end);
+      return this._editor && this._editor.getNodesByRange(start, end);
     },
     getSelection() {
-      this._editor && this._editor.getSelection();
+      return this._editor && this._editor.getSelection();
     },
     getText() {
-      this._editor && this._editor.getText();
+      return this._editor && this._editor.getText();
     },
     getTextSelection() {
-      this._editor && this._editor.getTextSelection();
+      return this._editor && this._editor.getTextSelection();
     },
     refresh() {
       this._editor && this._editor.refresh();
