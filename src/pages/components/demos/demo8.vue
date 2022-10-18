@@ -106,10 +106,10 @@ export default {
   name: "demo8",
   components: { TestDemo },
   data() {
-    return {
+    return unObserver({
       data1: { a1: "data1", b: "b1" },
       data2: unObserver({ a1: "data2", b: "b2" })
-    };
+    });
   },
   created() {
     console.log("parentDemo", this);
