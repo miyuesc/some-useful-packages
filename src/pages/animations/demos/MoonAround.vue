@@ -1,12 +1,10 @@
 <template>
-  <div class="MoonAround">
-    <div class="wrap">
-      <div class="orbit"></div>
-      <div class="planet">
-        <div class="ball">
-          <p>集团</p>
-          <p>平台</p>
-        </div>
+  <div class="wrap">
+    <div class="orbit"></div>
+    <div class="planet">
+      <div class="ball">
+        <p>集团</p>
+        <p>平台</p>
       </div>
     </div>
   </div>
