@@ -11,6 +11,7 @@
 import FormulaDesigner from "@/components/FormulaDesigner";
 export default {
   name: "demo3",
+  cnName: "表达式编辑器",
   components: { FormulaDesigner },
   data() {
     return {

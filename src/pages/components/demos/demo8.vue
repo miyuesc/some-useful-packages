@@ -104,6 +104,7 @@ const TestDemo = Vue.component("test-demo", {
 });
 export default {
   name: "demo8",
+  cnName: "Vue2 阻止响应式",
   components: { TestDemo },
   data() {
     return unObserver({

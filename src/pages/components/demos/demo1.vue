@@ -22,6 +22,7 @@ import MapOverlayEdit from "@/components/MapOverlayEdit";
 
 export default {
   name: "demo1",
+  cnName: "地图线面编辑",
   components: { MapOverlayEdit },
   data() {
     return {

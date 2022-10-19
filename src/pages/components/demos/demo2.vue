@@ -6,6 +6,7 @@
 import DetailInfoBoard from "@/components/DetailInfoBoard";
 export default {
   name: "demo2",
+  cnName: "详情卡片",
   components: { DetailInfoBoard },
   data() {
     return {
