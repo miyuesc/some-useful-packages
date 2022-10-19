@@ -1,31 +1,31 @@
 <template>
   <div class="splitting-image-cover">
     <div class="tiler">
-      <img src="https://picsum.photos/1000/600?image=1067" />
+      <img src="https://browser9.qhimg.com/bdm/1000_618_85/t01753453b660de14e9.jpg" alt="" />
     </div>
     <div class="tiler">
-      <img src="https://picsum.photos/1000/600?image=1061" />
+      <img src="https://browser9.qhimg.com/bdm/1000_618_85/t01bbd94b90e850d1d3.jpg" alt="" />
     </div>
     <div class="tiler">
-      <img src="https://picsum.photos/1000/600?image=1057" />
+      <img src="https://browser9.qhimg.com/bdm/1000_618_85/t019fd908f724f51900.jpg" alt="" />
     </div>
     <div class="tiler">
-      <img src="https://picsum.photos/1000/600?image=1052" />
+      <img src="https://browser9.qhimg.com/bdm/1000_618_85/t016ad88ddaf2ae2d92.jpg" alt="" />
     </div>
     <div class="tiler">
-      <img src="https://picsum.photos/1000/600?image=1043" />
+      <img src="https://browser9.qhimg.com/bdm/1000_618_85/t01cd97ec806b712059.jpg" alt="" />
     </div>
     <div class="tiler">
-      <img src="https://picsum.photos/1000/600?image=1055" />
+      <img src="https://browser9.qhimg.com/bdm/1000_618_85/t01a78941bc25ae2cf9.jpg" alt="" />
     </div>
     <div class="tiler">
-      <img src="https://picsum.photos/1000/600?image=1036" />
+      <img src="https://browser9.qhimg.com/bdm/1000_618_85/t01028e5f2ec69e423d.jpg" alt="" />
     </div>
     <div class="tiler">
-      <img src="https://picsum.photos/1000/600?image=1037" />
+      <img src="https://browser9.qhimg.com/bdm/1000_618_85/t01a7117bbc9683a7eb.jpg" alt="" />
     </div>
     <div class="tiler">
-      <img src="https://picsum.photos/1000/600?image=1039" />
+      <img src="https://browser9.qhimg.com/bdm/1000_618_85/t015d4f327880dddb26.jpg" alt="" />
     </div>
   </div>
 </template>
