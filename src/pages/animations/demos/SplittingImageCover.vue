@@ -49,12 +49,20 @@ export default {
 <style lang="scss">
 .splitting-image-cover {
   max-width: 800px;
+  max-height: 494px;
+  //  padding: 2em;
+  //  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+
   display: flex;
   flex-wrap: wrap;
-  padding: 2em;
   margin: auto;
   background: #323643;
-  position: relative;
   box-sizing: border-box;
 }
 
