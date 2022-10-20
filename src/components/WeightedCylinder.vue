@@ -112,6 +112,8 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    transition: all ease-in-out 0.2s;
     &::before,
     &::after {
       content: "";
