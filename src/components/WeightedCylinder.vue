@@ -1,6 +1,7 @@
 <template>
   <div class="weighted-cylinder">
     <div class="weighted-cylinder__header"></div>
+    <!--    <div class="weighted-cylinder__luminous"></div>-->
     <div class="weighted-cylinder__content">
       <div class="cylinder__content-inner" :style="computedStyle">
         <div v-if="showData" class="cylinder__content-data">{{ data }}</div>
@@ -58,7 +59,8 @@ export default {
   padding: 0;
   .weighted-cylinder__header,
   .weighted-cylinder__content,
-  .weighted-cylinder__footer {
+  .weighted-cylinder__footer,
+  .weighted-cylinder__luminous {
     position: absolute;
     left: 0;
     right: 0;
@@ -81,7 +83,7 @@ export default {
       background: linear-gradient(to right, #66c8ff, #92e1fe);
     }
     &::after {
-      z-index: 1;
+      z-index: -1;
       bottom: -20px;
       background: linear-gradient(to right, #6776f8, #4bc5fe);
     }
@@ -89,16 +91,41 @@ export default {
   .weighted-cylinder__header {
     top: 0;
     z-index: 20;
+    box-shadow: 0 0 8px 0 #92e1fe;
+    &::before {
+      box-shadow: 0 0 8px 0 #92e1fe;
+    }
   }
   .weighted-cylinder__footer {
     bottom: 0;
     z-index: 2;
+    box-shadow: 0 0 16px 0 #4bc5fe;
+    &::after {
+      box-shadow: 0 6px 8px 0 #4bc5fe;
+    }
   }
   .weighted-cylinder__content {
     top: 10%;
     bottom: 10%;
     z-index: 10;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(102, 200, 255, 0.2));
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(102, 200, 255, 0.4));
+  }
+
+  .weighted-cylinder__luminous {
+    top: 10%;
+    bottom: 10%;
+    z-index: 11;
+    pointer-events: none;
+    &::before {
+      content: "";
+      position: absolute;
+      width: 2%;
+      min-width: 2px;
+      height: 5%;
+      min-height: 16px;
+      border-radius: 2px;
+      background: linear-gradient(to bottom, rgba(39, 111, 171, 0.8), rgba(102, 255, 232, 0.52));
+    }
   }
 
   .cylinder__content-inner {
