@@ -124,10 +124,12 @@ export default {
     }
     &::before {
       top: -16px;
+      z-index: 10;
       background: linear-gradient(to right, #53d3fa, #56d9f8);
     }
     &::after {
       bottom: -16px;
+      z-index: 1;
       background: linear-gradient(to right, #12e49a, #2c86e1);
     }
   }
