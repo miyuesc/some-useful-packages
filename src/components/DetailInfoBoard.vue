@@ -93,6 +93,7 @@ export default {
   line-height: 32px;
   display: flex;
   align-items: center;
+  white-space: nowrap;
 }
 .info-content_value {
   overflow: hidden;
