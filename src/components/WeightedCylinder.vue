@@ -21,6 +21,10 @@ export default {
       type: Number,
       default: 0.2
     },
+    max: {
+      type: Number,
+      default: 1
+    },
     title: {
       type: String,
       default: "权重"
@@ -40,7 +44,7 @@ export default {
   },
   computed: {
     computedStyle() {
-      const style = { height: `${this.data * 100}%` };
+      const style = { height: `${(this.data / this.max) * 100}%` };
       if (this.reverse) {
         style.flexDirection = "column-reverse";
       }
@@ -91,17 +95,21 @@ export default {
   .weighted-cylinder__header {
     top: 0;
     z-index: 20;
-    box-shadow: 0 0 8px 0 #92e1fe;
+    //box-shadow: 0 0 8px 0 #92e1fe;
+    filter: drop-shadow(0 0 8px #92e1fe);
     &::before {
-      box-shadow: 0 0 8px 0 #92e1fe;
+      //box-shadow: 0 0 8px 0 #92e1fe;
+      filter: drop-shadow(0 0 8px #92e1fe);
     }
   }
   .weighted-cylinder__footer {
     bottom: 0;
     z-index: 2;
-    box-shadow: 0 0 16px 0 #4bc5fe;
+    //box-shadow: 0 0 16px 0 #4bc5fe;
+    filter: drop-shadow(0 0 16px #4bc5fe);
     &::after {
-      box-shadow: 0 6px 8px 0 #4bc5fe;
+      //box-shadow: 0 6px 8px 0 #4bc5fe;
+      filter: drop-shadow(0 6px 8px #4bc5fe);
     }
   }
   .weighted-cylinder__content {
