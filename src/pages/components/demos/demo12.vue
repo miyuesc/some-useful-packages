@@ -6,6 +6,7 @@
 
 <script>
 import WeightedLineBar from "@/components/WeightedLineBar";
+import { randomHexColor, randomRgbaColor } from "../../../../utils/colors";
 export default {
   name: "demo12",
   components: { WeightedLineBar },
@@ -17,16 +18,16 @@ export default {
   },
   created() {
     this.bars = [1, 2, 3, 4, 5, 6].map((_, index) => {
-      const barPadding = Math.floor(Math.random() * 6);
-      const fontSize = Math.floor(Math.random() * 12 + 12);
-      ``;
-      const barHeight = Math.floor(Math.random() * 10 + 10);
+      const barPadding = Math.floor(Math.random() * 8);
+      const fontSize = Math.floor(Math.random() * 12 + 16);
+      const barHeight = Math.floor(Math.random() * 16 + 16);
       return {
         title: `图表——${index}${index}${index}`,
         icon: `0${index}`,
         data: Math.random(),
         unit: "%%",
-        color: ["#18fef0", "#4bc5fe"],
+        color: [randomHexColor(), randomHexColor()],
+        bgColor: randomRgbaColor(),
         fontSize,
         barPadding,
         barHeight
