@@ -4,7 +4,8 @@
       <slot name="icon"></slot>
       <div v-if="!$slots.icon" class="bar__header-icon">{{ icon }}</div>
       <div class="bar__header-title">{{ title }}</div>
-      <div class="bar__header-data" :data-attr-unit="unit">{{ data }}</div>
+      <div v-if="!highlight" class="bar__header-data" :data-attr-unit="unit">{{ data }}</div>
+      <highlight-text v-else :text="data" :unit="unit" :color="fontColor" :size="fontSize" />
     </div>
     <div class="bar__content" :style="computedBoxStyle">
       <div :class="computedBarClass" :style="computedBarStyle"></div>
@@ -15,9 +16,11 @@
 
 <script>
 import { getRawType } from "../../utils/tools";
+import HighlightText from "@/components/HighlightText";
 
 export default {
   name: "WeightedLineBar",
+  components: { HighlightText },
   props: {
     data: {
       type: Number,
@@ -45,6 +48,10 @@ export default {
     },
     unit: {
       type: String
+    },
+    highlight: {
+      type: Boolean,
+      default: true
     },
     fontColor: {
       type: String,
