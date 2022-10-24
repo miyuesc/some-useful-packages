@@ -6,7 +6,7 @@
 
 <script>
 import WeightedLineBar from "@/components/WeightedLineBar";
-import { randomHexColor, randomRgbaColor } from "../../../../utils/colors";
+import { randomRgbaColor } from "../../../../utils/colors";
 export default {
   name: "demo12",
   components: { WeightedLineBar },
@@ -25,8 +25,8 @@ export default {
         title: `图表——${index}${index}${index}`,
         icon: `0${index}`,
         data: Math.random(),
-        unit: "%%",
-        color: [randomHexColor(), randomHexColor()],
+        unit: "%",
+        color: [randomRgbaColor(), randomRgbaColor()],
         bgColor: randomRgbaColor(),
         fontSize,
         barPadding,

@@ -4,7 +4,7 @@
       <weighted-cylinder :data="nums[0]" title="权重" />
     </div>
     <div class="demos-content">
-      <weighted-cylinder :data="nums[1]" title="占比" :show-data="false" />
+      <weighted-cylinder :data="nums[1]" :format="(val) => val * 100" title="占比" unit="%" />
     </div>
     <div class="demos-content">
       <weighted-cylinder :data="nums[2]" title="哈哈" reverse />

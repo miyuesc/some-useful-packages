@@ -27,15 +27,19 @@ const componentsList = [];
 context.keys().forEach((key) => {
   const component = context(key).default;
   components[component.name] = component;
-  componentsList.push({ name: component.name, component, key: component.name });
+  componentsList.push({
+    name: component.cnName || component.name,
+    component,
+    key: component.name,
+    index: component.name.replace("demo", "")
+  });
 });
-
 export default {
   name: "Animations",
   components: components,
   data() {
     return {
-      componentsList,
+      componentsList: componentsList.sort((a, b) => a.index - b.index),
       active: {
         key: componentsList[0]?.key || 0,
         component: componentsList[0]?.component || null

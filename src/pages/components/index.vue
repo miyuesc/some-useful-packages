@@ -28,7 +28,7 @@ context.keys().forEach((key) => {
   const component = context(key).default;
   components[component.name] = component;
   componentsList.push({
-    name: component.cnName,
+    name: component.cnName || component.name,
     component,
     key: component.name,
     index: component.name.replace("demo", "")

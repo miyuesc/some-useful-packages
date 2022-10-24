@@ -1,10 +1,9 @@
 <template>
   <div class="weighted-cylinder">
     <div class="weighted-cylinder__header"></div>
-    <!--    <div class="weighted-cylinder__luminous"></div>-->
     <div class="weighted-cylinder__content">
       <div class="cylinder__content-inner" :style="computedStyle">
-        <div v-if="showData" class="cylinder__content-data">{{ data }}</div>
+        <div v-if="showData" class="cylinder__content-data">{{ computedData }}</div>
         <div v-if="showTitle" class="cylinder__content-title">{{ title }}</div>
         <slot></slot>
       </div>
@@ -29,11 +28,22 @@ export default {
       type: String,
       default: "权重"
     },
+    unit: {
+      type: String,
+      default: ""
+    },
+    format: {
+      type: Function
+    },
     showData: {
       type: Boolean,
       default: true
     },
     showTitle: {
+      type: Boolean,
+      default: true
+    },
+    showUnit: {
       type: Boolean,
       default: true
     },
@@ -43,6 +53,16 @@ export default {
     }
   },
   computed: {
+    computedData() {
+      let data = this.data;
+      if (this.format && typeof this.format === "function") {
+        data = this.format(data);
+      }
+      if (this.unit && this.showUnit) {
+        data += this.unit;
+      }
+      return data;
+    },
     computedStyle() {
       const style = { height: `${(this.data / this.max) * 100}%` };
       if (this.reverse) {
