@@ -5,6 +5,7 @@
       <el-button size="mini" @click="directUpdate">直接更新</el-button>
       <el-button size="mini" @click="dealUpdate">拷贝更新</el-button>
       <el-button size="mini" @click="getData">数据获取</el-button>
+      <el-button size="mini" @click="updateFunc">错误事件</el-button>
     </div>
     <div class="data-box">{{ this.testData }}</div>
     <div class="designer-box" ref="designer"></div>
@@ -47,6 +48,18 @@ export default {
         camunda: CamundaBpmnModdle
       }
     });
+
+    this._modeler.on("shape.removed", (e) => {
+      console.log(e);
+    });
+    this._modeler.on("selection.changed", ({ newSelection }) => {
+      console.log(newSelection);
+      this._activeElement = newSelection[0] || null;
+    });
+
+    this._modeler.on("commandStack.shape.delete.executed", (e) => {
+      console.log(e);
+    });
     createNewDiagram(this._modeler);
   },
   methods: {
@@ -78,6 +91,33 @@ export default {
         console.log("extensionElements", ex);
         console.log(ex.get("values"));
       }
+    },
+
+    updateFunc() {
+      const factory = this._modeler.get("bpmnFactory");
+      const modeling = this._modeler.get("modeling");
+      console.log(this._modeler.get("canvas"));
+      console.log(this._modeler.get("canvas").getRootElement());
+
+      const process = this._modeler.get("canvas").getRootElement();
+      const root = process.businessObject.$parent;
+
+      if (!this._activeElement) return;
+      // (1)
+      const error = factory.create("bpmn:Error", { name: `Error_${new Date().getTime()}` });
+      error.$parent = root;
+
+      // (2)
+      modeling.updateModdleProperties(this._activeElement, root, {
+        rootElements: [...root.get("rootElements"), error]
+      });
+
+      // (3)
+      const errorEventDefinition = this._activeElement.businessObject.get("eventDefinitions")[0];
+
+      // (4)
+      errorEventDefinition &&
+        modeling.updateModdleProperties(this._activeElement, errorEventDefinition, { errorRef: error });
     }
   }
 };
