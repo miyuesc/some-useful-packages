@@ -164,11 +164,10 @@ export default {
     &.is-clutter {
       transform: translateX(0%) rotate(var(--rotate-deg));
       transform-origin: bottom center;
-      animation: rotation ease-in-out 0.4s;
       &.is-active {
-        transform-origin: bottom left;
-        z-index: var(--max-index) !important;
+        animation: rotation ease-in-out 0.8s;
         transform: translateX(calc(120%)) rotate(0deg);
+        z-index: var(--max-index) !important;
       }
     }
   }
@@ -186,8 +185,23 @@ export default {
 }
 
 @keyframes rotation {
+  0% {
+    transform: translateX(0%) rotate(var(--rotate-deg));
+  }
+  60% {
+    transform: translateX(calc(130%)) rotate(2deg);
+  }
+  70% {
+    transform: translateX(calc(110%)) rotate(-2deg);
+  }
   80% {
-    transform: translateX(calc(125%)) rotate(0deg);
+    transform: translateX(calc(125%)) rotate(1deg);
+  }
+  90% {
+    transform: translateX(calc(115%)) rotate(-1deg);
+  }
+  100% {
+    transform: translateX(calc(120%)) rotate(0deg);
   }
 }
 </style>
