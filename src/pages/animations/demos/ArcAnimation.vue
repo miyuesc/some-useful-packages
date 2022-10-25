@@ -20,9 +20,9 @@
       <div class="base-content">
         <svg :viewBox="`-${width / 2} -${width / 2} ${width} ${width}`">
           <g v-for="i in arr" :key="i.k">
-            <path :d="computedDotPath(i)" fill="none" stroke="#c4605f" stroke-width="4px"></path>
+            <path :d="i.path" fill="none" stroke="#c4605f" stroke-width="4px"></path>
             <circle r="5" fill="#af4">
-              <animateMotion dur="4s" repeatCount="indefinite" :path="computedDotPath(i)" />
+              <animateMotion dur="4s" repeatCount="indefinite" :path="i.path" />
             </circle>
           </g>
           <circle r="30" cx="0" cy="-60" fill="#2bc0e4" />
@@ -65,19 +65,6 @@ export default {
         borderRadius = "0% 100% 100% 0% / 50% 50% 50% 50% ";
         return { borderRadius, right: 0 };
       };
-    },
-    computedDotPath() {
-      return ({ x, y }) => {
-        const centerX = 0;
-        const centerY = -60;
-        let controlX = (centerX + x) / 1.4;
-        let controlY = (centerY + y) / 2;
-        if (y < -60) {
-          controlX = x / 2;
-          controlY = y / 1.2;
-        }
-        return `M0,-60 C${controlX},${controlY} ${controlX},${controlY} ${x},${y}`;
-      };
     }
   },
   created() {
@@ -89,6 +76,18 @@ export default {
       const center = { x: 0, y: 0 };
       this.arr = this.calcCircularLayout(length, center, 296);
       timing && setTimeout(this.updateArray, 2000);
+    },
+
+    computedDotPath({ x, y }) {
+      const centerX = 0;
+      const centerY = -60;
+      let controlX = (centerX + x) / 1.4;
+      let controlY = (centerY + y) / 2;
+      if (y < -60) {
+        controlX = x / 2;
+        controlY = y / 1.2;
+      }
+      return `M0,-60 C${controlX},${controlY} ${controlX},${controlY} ${x},${y}`;
     },
     /**
      * 计算N个点均匀排列成圆的各个点坐标
@@ -104,9 +103,7 @@ export default {
       for (i = _i = 0; _i < nodeSize; i = ++_i) {
         let x = center.x + radius * Math.sin((2 * Math.PI * i) / nodeSize);
         let y = center.y + radius * Math.cos((2 * Math.PI * i) / nodeSize);
-        let path = `M300,240 C`;
-
-        _layouts.push({ x: x, y: y, k: i });
+        _layouts.push({ x: x, y: y, k: i, path: this.computedDotPath({ x, y }) });
       }
 
       return _layouts;
