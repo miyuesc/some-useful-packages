@@ -2,7 +2,7 @@
   <div class="AnimationCards">
     <h1>AnimationCards Page</h1>
     <p>
-      <el-button @click="clutter = !clutter">乱序</el-button>
+      <el-button @click="resetData">乱序</el-button>
     </p>
 
     <div class="demo-content">
@@ -15,8 +15,7 @@
           ]"
           :key="index"
           :style="{ ...styles }"
-          @click="activeIndex = index"
-          @mouseleave="!clutter && (activeIndex = -1)"
+          @click="activeIndex = activeIndex === index ? -1 : index"
         >
           <span>Card {{ index }}</span>
         </div>
@@ -81,15 +80,18 @@ export default {
   },
   methods: {
     initData() {
-      const arr = new Array(12);
+      const arr = new Array(12).fill(1);
       this.cards = arr.map((_, index) => {
-        console.log(this.computedStyle(index, 12));
         return this.computedStyle(index, 12);
       });
     },
+    resetData() {
+      this.clutter = !this.clutter;
+      this.initData();
+    },
     computedStyle(index, length) {
       const clutter = this.clutter;
-      const defaultStyles = { "--max-index": length + 1, "--bg-color": randomRgbColor(), zIndex: index };
+      const defaultStyles = { "--max-index": length + 1, "--bg-color": randomRgbColor(), "--card-index": index };
 
       if (clutter) {
         let rotate = 0;
@@ -142,15 +144,8 @@ export default {
     align-items: center;
     font-size: 32px;
     font-weight: bold;
-
-    &.is-clutter {
-      transform: rotateZ(var(--rotate-deg));
-      transform-origin: bottom center;
-      &.is-active {
-        z-index: var(--max-index) !important;
-        transform: translateX(calc(120%)) rotateX(360deg) rotateZ(0deg);
-      }
-    }
+    color: #ffffff;
+    z-index: var(--card-index);
 
     &.is-list {
       animation: reject ease-in-out 0.4s;
@@ -162,6 +157,18 @@ export default {
       &.is-active {
         z-index: var(--max-index) !important;
         animation: eject ease-in-out 0.4s;
+        transform: translateX(calc(var(--max-index) * 20px - var(--card-index) * 20px - 40px));
+      }
+    }
+
+    &.is-clutter {
+      transform: translateX(0%) rotate(var(--rotate-deg));
+      transform-origin: bottom center;
+      animation: rotation ease-in-out 0.4s;
+      &.is-active {
+        transform-origin: bottom left;
+        z-index: var(--max-index) !important;
+        transform: translateX(calc(120%)) rotate(0deg);
       }
     }
   }
@@ -174,13 +181,13 @@ export default {
 }
 @keyframes reject {
   50% {
-    transform: translateX(calc(-100% - 20px)) rotate(-20deg);
+    transform: translateX(calc(100% + 20px)) rotate(10deg);
   }
 }
 
 @keyframes rotation {
-  to {
-    transform: translateX(calc(120%)) rotateX(360deg) rotateZ(0deg);
+  80% {
+    transform: translateX(calc(125%)) rotate(0deg);
   }
 }
 </style>
