@@ -55,6 +55,7 @@ export default {
       }
     };
     let keyboardDeal = (e) => {
+      if (document.activeElement !== document.body) return;
       // 方向键--上
       if (e.keyCode === 38) {
         addIndex();
@@ -122,7 +123,6 @@ export default {
   height: 100%;
   box-sizing: border-box;
   padding: 20px;
-  background-color: #d2d2d2;
   position: relative;
   perspective: 1px;
   ::-webkit-scrollbar {
@@ -138,7 +138,7 @@ export default {
     top: 20px;
     bottom: 20px;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8);
-    transition: all ease-in-out 0.2s;
+    transition: all ease-in-out 0.4s;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -156,7 +156,7 @@ export default {
       }
       &.is-active {
         z-index: var(--max-index) !important;
-        animation: eject ease-in-out 0.4s;
+        animation: eject ease-in-out 0.8s;
         transform: translateX(calc(var(--max-index) * 20px - var(--card-index) * 20px - 40px));
       }
     }
