@@ -1,20 +1,18 @@
 <template>
   <div class="AnimationCards">
-    <h1>AnimationCards Page</h1>
     <p>
-      <el-button @click="resetData">乱序</el-button>
+      <el-button @click="resetData(0)">列表</el-button>
+      <el-button @click="resetData(1)">乱序扇形</el-button>
+      <el-button @click="resetData(2)">正序扇形</el-button>
     </p>
 
     <div class="demo-content">
       <div class="animation-cards-box">
         <div
           v-for="(styles, index) in cards"
-          :class="[
-            'animation-card',
-            { 'is-active': activeIndex === index, 'is-clutter': clutter, 'is-list': !clutter }
-          ]"
+          :class="['animation-card', { 'is-active': activeIndex === index, 'is-clutter': !!style, 'is-list': !style }]"
           :key="index"
-          :style="{ ...styles }"
+          :style="styles"
           @click="activeIndex = activeIndex === index ? -1 : index"
         >
           <span>Card {{ index }}</span>
@@ -32,7 +30,7 @@ export default {
   data() {
     return {
       activeIndex: -1,
-      clutter: true, // 杂乱
+      style: 0, // 杂乱
       cards: []
     };
   },
@@ -86,15 +84,24 @@ export default {
         return this.computedStyle(index, 12);
       });
     },
-    resetData() {
-      this.clutter = !this.clutter;
+    resetData(s) {
+      this.style = s;
       this.initData();
     },
     computedStyle(index, length) {
-      const clutter = this.clutter;
-      const defaultStyles = { "--max-index": length + 1, "--bg-color": randomRgbColor(), "--card-index": index };
+      const style = this.style;
+      const defaultStyles = {
+        "--max-index": length + 1,
+        "--bg-color": randomRgbColor(),
+        "--card-index": index
+      };
 
-      if (clutter) {
+      const tangle = 48;
+      const unitArc = tangle / length;
+
+      if (style === 0) {
+        defaultStyles["left"] = `${16 * ++index}px`;
+      } else if (style === 1) {
         let rotate = 0;
         if (index % 2 === 1) {
           rotate = length - index;
@@ -103,7 +110,8 @@ export default {
         }
         defaultStyles["--rotate-deg"] = rotate + "deg";
       } else {
-        defaultStyles["left"] = `${16 * ++index}px`;
+        let rotate = unitArc * index - 48 / 2;
+        defaultStyles["--rotate-deg"] = rotate + "deg";
       }
 
       return defaultStyles;
@@ -124,11 +132,7 @@ export default {
   box-sizing: border-box;
   padding: 20px;
   position: relative;
-  perspective: 1px;
-  ::-webkit-scrollbar {
-    height: 0;
-  }
-
+  perspective: 1000px;
   .animation-card {
     width: 200px;
     background-color: var(--bg-color);
@@ -138,7 +142,6 @@ export default {
     top: 20px;
     bottom: 20px;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8);
-    transition: all ease-in-out 0.4s;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -146,16 +149,17 @@ export default {
     font-weight: bold;
     color: #ffffff;
     z-index: var(--card-index);
+    transition: all ease-in-out 0.4s;
 
     &.is-list {
       animation: reject ease-in-out 0.4s;
       &:hover {
         & ~ .animation-card {
-          transform: translateX(24px);
+          transform: translateX(36px);
         }
       }
       &.is-active {
-        z-index: var(--max-index) !important;
+        z-index: var(--max-index);
         animation: eject ease-in-out 0.8s;
         transform: translateX(calc(var(--max-index) * 20px - var(--card-index) * 20px - 40px));
       }
@@ -166,8 +170,8 @@ export default {
       transform-origin: bottom center;
       &.is-active {
         animation: rotation ease-in-out 0.8s;
-        transform: translateX(calc(120%)) rotate(0deg);
-        z-index: var(--max-index) !important;
+        transform: translateX(calc(220%)) rotate(0deg);
+        z-index: var(--max-index);
       }
     }
   }
@@ -175,11 +179,20 @@ export default {
 
 @keyframes eject {
   50% {
-    transform: translateX(calc(-100% - 20px)) rotate(-20deg);
+    z-index: var(--card-index);
+    transform: translateX(calc(-100% - 20px)) rotateY(-120deg);
+  }
+  51% {
+    z-index: var(--max-index);
   }
 }
 @keyframes reject {
   50% {
+    z-index: var(--max-index);
+    transform: translateX(calc(100% + 20px)) rotate(10deg);
+  }
+  51% {
+    z-index: var(--card-index);
     transform: translateX(calc(100% + 20px)) rotate(10deg);
   }
 }
@@ -189,19 +202,21 @@ export default {
     transform: translateX(0%) rotate(var(--rotate-deg));
   }
   60% {
-    transform: translateX(calc(130%)) rotate(2deg);
+    z-index: var(--card-index) !important;
+    transform: translateX(calc(230%)) rotate(2deg);
   }
   70% {
-    transform: translateX(calc(110%)) rotate(-2deg);
+    transform: translateX(calc(210%)) rotate(-2deg);
   }
   80% {
-    transform: translateX(calc(125%)) rotate(1deg);
+    z-index: var(--max-index) !important;
+    transform: translateX(calc(225%)) rotate(1deg);
   }
   90% {
-    transform: translateX(calc(115%)) rotate(-1deg);
+    transform: translateX(calc(215%)) rotate(-1deg);
   }
   100% {
-    transform: translateX(calc(120%)) rotate(0deg);
+    transform: translateX(calc(220%)) rotate(0deg);
   }
 }
 </style>

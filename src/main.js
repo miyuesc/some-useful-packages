@@ -3,7 +3,7 @@ import Vue from "vue";
 Vue.config.productionTip = false;
 
 import ElementUI from "element-ui";
-Vue.use(ElementUI);
+Vue.use(ElementUI, { size: "mini" });
 
 import ClickOutside from "vue-click-outside";
 Vue.directive("click-outside", ClickOutside);
