@@ -1,5 +1,5 @@
 <template>
-  <svg width="1608" height="888" viewBox="0 0 1608 888">
+  <svg width="1608" height="888" viewBox="0 0 1608 888" preserveAspectRatio="none">
     <defs>
       <marker
         id="marker-blue-end"

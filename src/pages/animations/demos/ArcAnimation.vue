@@ -2,8 +2,12 @@
   <div class="ArcAnimation">
     <h1>ArcAnimation Page</h1>
     <p>
-      <el-button @click="updateArray(false)">刷新数据</el-button>
-      <el-button @click="updateArray(true)">自动刷新</el-button>
+      <el-button @click="updateStyle(0)">椭圆路径</el-button>
+      <el-button @click="updateStyle(1)">二次贝塞尔曲线</el-button>
+      <el-button @click="updateStyle(2)">三次贝塞尔曲线</el-button>
+    </p>
+    <p>
+      <el-button @click="updateArray()">刷新数据</el-button>
     </p>
 
     <div style="display: flex">
@@ -41,6 +45,7 @@ export default {
   data() {
     return {
       arr: [],
+      style: 0,
       width: 600
     };
   },
@@ -73,11 +78,14 @@ export default {
     this.updateArray(false);
   },
   methods: {
-    updateArray(timing) {
+    updateArray() {
       const length = Math.floor(Math.random() * 10 + 10);
       const center = { x: 0, y: 0 };
       this.arr = this.calcCircularLayout(length, center, 296);
-      timing && setTimeout(this.updateArray, 2000);
+    },
+    updateStyle(style) {
+      this.style = style;
+      this.arr.forEach((item) => (item.path = this.computedDotPath(item)));
     },
     /**
      * 计算N个点均匀排列成圆的各个点坐标
@@ -102,52 +110,54 @@ export default {
     computedDotPath({ x, y }) {
       const centerX = 0;
       const centerY = -60;
-
-      // // 1. 椭圆方式
-      // const ellipseH = x - centerX;
-      // const ellipseV = y - centerY;
-      // // 一象限
-      // let ellipseC = "0 0 1";
-      // // 二象限
-      // if (ellipseH > 0 && ellipseV < 0) {
-      //   ellipseC = "0 0 1";
-      // }
-      // // 三象限、四象限
-      // if (ellipseH < 0 && ellipseV < 0) {
-      //   ellipseC = "0 0 0";
-      // }
-      // // 四象限
-      // if (ellipseH < 0 && ellipseV > 0) {
-      //   ellipseC = "0 0 0";
-      // }
-      // return `M0,-60 A ${Math.abs(ellipseH)} ${Math.abs(ellipseV)} ${ellipseC} ${x} ${y}`;
-
-      // 2. 二次次贝赛尔曲线
-      let controlX = 0;
-      let controlY = 0;
-      // 上半部分
-      if (y < -60) {
-        controlX = x / 5;
-        controlY = (y - centerY) / 0.9;
-      } else {
-        // 下半部分
-        controlX = x;
-        controlY = y < 0 ? y - 20 : y / 1.8;
+      if (this.style === 0) {
+        // 1. 椭圆方式
+        const ellipseH = x - centerX;
+        const ellipseV = y - centerY;
+        // 一象限
+        let ellipseC = "0 0 1";
+        // 二象限
+        if (ellipseH > 0 && ellipseV < 0) {
+          ellipseC = "0 0 1";
+        }
+        // 三象限、四象限
+        if (ellipseH < 0 && ellipseV < 0) {
+          ellipseC = "0 0 0";
+        }
+        // 四象限
+        if (ellipseH < 0 && ellipseV > 0) {
+          ellipseC = "0 0 0";
+        }
+        return `M0,-60 A ${Math.abs(ellipseH)} ${Math.abs(ellipseV)} ${ellipseC} ${x} ${y}`;
       }
-      return `M0,-60 Q${controlX},${controlY}  ${x},${y}`;
+      if (this.style === 1) {
+        // 2. 二次次贝赛尔曲线
+        let controlX = 0;
+        let controlY = 0;
+        // 上半部分
+        if (y < -60) {
+          controlX = x / 5;
+          controlY = (y - centerY) / 0.9;
+        } else {
+          // 下半部分
+          controlX = x;
+          controlY = y < 0 ? y - 20 : y / 1.8;
+        }
+        return `M0,-60 Q${controlX},${controlY}  ${x},${y}`;
+      }
 
       // 3. 三次贝赛尔曲线
-      // let controlX1 = (centerX + x) * 0.1;
-      // let controlX2 = x;
-      // let controlY1 = centerY / 2;
-      // let controlY2 = (centerY + y) / 2;
-      // if (y < centerY) {
-      //   controlX1 = x / 2;
-      //   controlX2 = x / 2;
-      //   controlY1 = y / 1.2;
-      //   controlY2 = y / 1.2;
-      // }
-      // return `M0,-60 C${controlX1},${controlY1} ${controlX2},${controlY2} ${x},${y}`;
+      let controlX1 = (centerX + x) * 0.1;
+      let controlX2 = x;
+      let controlY1 = centerY / 2;
+      let controlY2 = (centerY + y) / 2;
+      if (y < centerY) {
+        controlX1 = x / 2;
+        controlX2 = x / 2;
+        controlY1 = y / 1.2;
+        controlY2 = y / 1.2;
+      }
+      return `M0,-60 C${controlX1},${controlY1} ${controlX2},${controlY2} ${x},${y}`;
     }
   }
 };

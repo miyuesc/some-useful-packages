@@ -5,6 +5,11 @@
       <el-button @click="updateArray(true)">自动刷新</el-button>
       <span>当前线段数量：{{ lineNum }}</span>
     </p>
+    <p>
+      <el-input v-model="center.x" />
+      <el-input v-model="center.y" />
+      <el-button @click="updateArray()">更换中心点</el-button>
+    </p>
 
     <div class="base-content">
       <div class="base-circle"></div>

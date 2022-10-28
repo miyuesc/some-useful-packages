@@ -9,8 +9,10 @@
           padding: 0;
       }
       #chart-container {
+          margin: 200px auto;
           position: relative;
-          height: 100vh;
+          width: 600px;
+          height: 480px;
           overflow: hidden;
       }
 
@@ -41,7 +43,6 @@
         }
       },
       formatter(params) {
-        console.log(params);
         return params.reduce((res, item, index) => {
           if (index === 0) {
             res += `${item.axisValue}<br/>`
@@ -53,14 +54,6 @@
           }
           return res
         }, '')
-      }
-    },
-    toolbox: {
-      feature: {
-        dataView: { show: true, readOnly: false },
-        magicType: { show: true, type: ['line', 'bar'] },
-        restore: { show: true },
-        saveAsImage: { show: true }
       }
     },
     legend: {
