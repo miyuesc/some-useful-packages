@@ -2,9 +2,9 @@
   <div class="animations-content">
     <ul class="page-slider">
       <li
-        v-for="item in componentsList"
+        v-for="item in menus"
         :key="item.key"
-        :class="{ 'is-active': active.key === item.key }"
+        :class="{ 'is-active': active.name === item.name }"
         @click="setActive(item)"
       >
         {{ item.name }}
@@ -12,45 +12,30 @@
     </ul>
     <div class="page-content">
       <transition name="slide-left">
-        <component :is="active.component" />
+        <router-view />
       </transition>
     </div>
   </div>
 </template>
 
 <script>
-const context = require.context("./demos/", true, /\.vue$/);
+import { animationMenu } from "@/router";
 
-const components = {};
-const componentsList = [];
-
-context.keys().forEach((key) => {
-  const component = context(key).default;
-  components[component.name] = component;
-  componentsList.push({
-    name: component.cnName || component.name,
-    component,
-    key: component.name,
-    index: component.name.replace("demo", "")
-  });
-});
 export default {
   name: "Animations",
-  components: components,
   data() {
     return {
-      componentsList: componentsList.sort((a, b) => a.index - b.index),
+      componentsList: animationMenu.sort((a, b) => a.index - b.index),
+      menus: animationMenu,
       active: {
-        key: componentsList[0]?.key || 0,
-        component: componentsList[0]?.component || null
+        name: animationMenu[0]?.name || 0
       }
     };
   },
   methods: {
-    setActive({ key, component }) {
-      console.log(key, component);
-      this.active.key = key;
-      this.active.component = component;
+    setActive(item) {
+      this.active.name = item.name;
+      this.$router.push(`/components/${item.path}`);
     }
   }
 };
