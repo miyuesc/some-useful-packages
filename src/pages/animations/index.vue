@@ -35,7 +35,7 @@ export default {
   methods: {
     setActive(item) {
       this.active.name = item.name;
-      this.$router.push(`/components/${item.path}`);
+      this.$router.push(`/animations/${item.path}`);
     }
   }
 };
