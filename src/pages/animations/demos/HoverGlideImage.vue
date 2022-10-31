@@ -72,7 +72,7 @@ export default {
       const panX = maxX * xDecimal * -1,
         panY = maxY * yDecimal * -1;
 
-      gallery.animate(
+      const animation = gallery.animate(
         {
           transform: `translate(${panX}px, ${panY}px)`
         },
@@ -82,6 +82,8 @@ export default {
           easing: "ease"
         }
       );
+
+      animation.onfinish = () => animation.cancel();
     }
   }
 };
