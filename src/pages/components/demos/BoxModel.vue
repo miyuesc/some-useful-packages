@@ -31,35 +31,48 @@
         </div>
       </fieldset>
     </div>
-    <div class="display-area" :style="{ height: marginBoxStyles.height }">
-      <div class="display-box margin-box" data-attr-name="Margin" :style="marginBoxStyles">
-        <span
-          v-for="m in ['top', 'right', 'bottom', 'left']"
-          :class="`property property-margin property-${m}`"
-          :key="`margin-${m}`"
-          >{{ config.margin[m] }}</span
-        >
-      </div>
-      <div class="display-box border-box" data-attr-name="Border" :style="borderBoxStyles">
-        <span
-          v-for="m in ['top', 'right', 'bottom', 'left']"
-          :class="`property property-border property-${m}`"
-          :key="`border-${m}`"
-          >{{ config.border[m] }}</span
-        >
-      </div>
-      <div class="display-box padding-box" data-attr-name="Padding" :style="paddingBoxStyles">
-        <span
-          v-for="m in ['top', 'right', 'bottom', 'left']"
-          :class="`property property-padding property-${m}`"
-          :key="`padding-${m}`"
-          >{{ config.padding[m] }}</span
-        >
-      </div>
-      <div class="display-box content-box" data-attr-name="Content" :style="contentBoxStyles">
-        <span class="inner-property property-width">{{ contentSize.width || 0 }}</span>
-        <span class="inner-property">x</span>
-        <span class="inner-property property-height">{{ contentSize.height || 0 }}</span>
+    <div class="result-container">
+      <fieldset class="control-form">
+        <legend>RESULT</legend>
+        <div class="control-item">
+          <div class="control-item_label">WITH MARGIN</div>
+          <div class="control-item_content">{{ marginBoxStyles.width }} x {{ marginBoxStyles.height }}</div>
+        </div>
+        <div class="control-item">
+          <div class="control-item_label">WITHOUT MARGIN</div>
+          <div class="control-item_content">{{ borderBoxStyles.width }} x {{ borderBoxStyles.height }}</div>
+        </div>
+      </fieldset>
+      <div class="display-area" :style="{ height: marginBoxStyles.height }">
+        <div class="display-box margin-box" data-attr-name="Margin" :style="marginBoxStyles">
+          <span
+            v-for="m in ['top', 'right', 'bottom', 'left']"
+            :class="`property property-margin property-${m}`"
+            :key="`margin-${m}`"
+            >{{ config.margin[m] }}</span
+          >
+        </div>
+        <div class="display-box border-box" data-attr-name="Border" :style="borderBoxStyles">
+          <span
+            v-for="m in ['top', 'right', 'bottom', 'left']"
+            :class="`property property-border property-${m}`"
+            :key="`border-${m}`"
+            >{{ config.border[m] }}</span
+          >
+        </div>
+        <div class="display-box padding-box" data-attr-name="Padding" :style="paddingBoxStyles">
+          <span
+            v-for="m in ['top', 'right', 'bottom', 'left']"
+            :class="`property property-padding property-${m}`"
+            :key="`padding-${m}`"
+            >{{ config.padding[m] }}</span
+          >
+        </div>
+        <div class="display-box content-box" data-attr-name="Content" :style="contentBoxStyles">
+          <span class="inner-property property-width">{{ contentSize.width || 0 }}</span>
+          <span class="inner-property">x</span>
+          <span class="inner-property property-height">{{ contentSize.height || 0 }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -97,9 +110,12 @@ export default {
         const { width, height } = this.size;
         const { top: ptop, right: pright, bottom: pbottom, left: pleft } = this.config.padding;
         const { top: btop, right: bright, bottom: bbottom, left: bleft } = this.config.border;
+
+        const w = width - pleft - pright - bleft - bright;
+        const h = height - ptop - pbottom - btop - bbottom;
         return {
-          width: width - pleft - pright - bleft - bright,
-          height: height - ptop - pbottom - btop - bbottom
+          width: w >= 0 ? w : 0,
+          height: h >= 0 ? h : 0
         };
       }
     },
@@ -188,32 +204,32 @@ $color-label: #808386;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    .control-form {
-      border: 1px solid #343434;
-      padding: 12px 6px;
-      color: $color-label;
-      legend {
-        font-size: 24px;
-        font-weight: lighter;
-      }
-      & + .control-form {
-        margin-top: 20px;
-      }
+  }
+  .control-form {
+    border: 1px solid #343434;
+    padding: 12px 6px;
+    color: $color-label;
+    legend {
+      font-size: 24px;
     }
-    .control-item {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 160px 1fr 100px;
-      grid-gap: 12px;
-      align-items: center;
+    & + .control-form {
+      margin-top: 20px;
     }
-    .control-item_label {
-      text-align: right;
-    }
+  }
+  .control-item {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 160px 1fr 100px;
+    grid-gap: 12px;
+    align-items: center;
+  }
+  .control-item_label {
+    text-align: right;
   }
 
   .display-area {
     position: relative;
+    margin-top: 20px;
     .inner-property,
     .property {
       font-size: 16px;
