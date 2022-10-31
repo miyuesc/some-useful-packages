@@ -179,21 +179,12 @@ export default {
 
 @keyframes eject {
   50% {
-    z-index: var(--card-index);
-    transform: translateX(calc(-100% - 20px)) rotateY(-120deg);
-  }
-  51% {
-    z-index: var(--max-index);
+    transform: translateX(calc(-100% - 20px));
   }
 }
 @keyframes reject {
   50% {
-    z-index: var(--max-index);
-    transform: translateX(calc(100% + 20px)) rotate(10deg);
-  }
-  51% {
-    z-index: var(--card-index);
-    transform: translateX(calc(100% + 20px)) rotate(10deg);
+    transform: translateX(calc(100% + 20px));
   }
 }
 
@@ -202,14 +193,12 @@ export default {
     transform: translateX(0%) rotate(var(--rotate-deg));
   }
   60% {
-    z-index: var(--card-index) !important;
     transform: translateX(calc(230%)) rotate(2deg);
   }
   70% {
     transform: translateX(calc(210%)) rotate(-2deg);
   }
   80% {
-    z-index: var(--max-index) !important;
     transform: translateX(calc(225%)) rotate(1deg);
   }
   90% {
