@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>js+css3圆形旋转动画特效</title>
+    <style>
+      /*此代码非源码，仅为演示用，下载源码请到：HTTP://WWW.BOOTSTrapmb.com*/ /*此代码非源码，仅为演示用，下载源码请到：HTTP://WWW.BOOTSTrapmb.com*/ /*此代码非源码，仅为演示用，下载源码请到：HTTP://WWW.BOOTSTrapmb.com*/ /*第一层*/
+      @keyframes animX {
+        0% {
+          left: 0px;
+        }
+        100% {
+          left: 500px;
+        }
+      }
+      @keyframes animY {
+        0% {
+          top: 0px;
+        }
+        100% {
+          top: 300px;
+        }
+      }
+      @keyframes scale {
+        0% {
+          transform: scale(0.4);
+          z-index: 0;
+        }
+        50% {
+          transform: scale(1);
+          z-index: 3;
+        }
+        100% {
+          transform: scale(0.5);
+          z-index: 0;
+        }
+      }
+
+      .ball {
+        width: 105px;
+        height: 129px;
+        /*background-color: #f66;*/
+        border-radius: 50%;
+        position: absolute;
+        color: #fff;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /*background: url(../images/shadow1.png) no-repeat scroll 100% 100%;*/
+        background-size: 100% 100%;
+        -webkit-background-size: 100% 100%;
+        line-height: 120px;
+        z-index: 3;
+        /*动画执行一次所需时间*/
+        animation-duration: 10s, 10s, 20s;
+        /*动画以何种运行轨迹完成一个周期*/
+        animation-timing-function: cubic-bezier(0.36, 0, 0.64, 1);
+        /*动画播放次数,无线循环播放*/
+        animation-iteration-count: infinite;
+        /*是否轮流反向播放动画 alternate:正向播放*/
+        animation-direction: alternate;
+        animation-name: animX, animY, scale;
+      }
+
+      #lopp {
+        width: 500px;
+        height: 300px;
+        border: 2px solid #999;
+        border-radius: 50%;
+        position: absolute;
+        left: 50px;
+        top: 70px;
+      }
+      /*鼠标进入停止*/
+      .active {
+        animation-play-state: paused;
+      }
+      /*第二层*/
+      @keyframes anim2X {
+        0% {
+          left: 100px;
+        }
+        100% {
+          left: 420px;
+        }
+      }
+      @keyframes anim2Y {
+        0% {
+          top: 70px;
+        }
+        100% {
+          top: 220px;
+        }
+      }
+      .ball2 {
+        z-index: 3;
+        width: 88px;
+        height: 88px;
+        /*background-color: #f66;*/
+        border-radius: 50%;
+        position: absolute;
+        color: #fff;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /*background: url(../images/shadow2.png) no-repeat scroll 100% 100%;*/
+        background-size: 100% 100%;
+        -webkit-background-size: 100% 100%;
+        /*line-height: 120px;*/
+        /*动画执行一次所需时间*/
+        animation-duration: 10s, 10s, 20s;
+        /*动画以何种运行轨迹完成一个周期*/
+        animation-timing-function: cubic-bezier(0.36, 0, 0.64, 1);
+        /*动画播放次数,无线循环播放*/
+        animation-iteration-count: infinite;
+        /*是否轮流反向播放动画 alternate:正向播放*/
+        animation-direction: alternate;
+        animation-name: anim2X, anim2Y, scale;
+      }
+      #lopp2 {
+        width: 300px;
+        height: 150px;
+        border: 2px solid #999;
+        border-radius: 50%;
+        position: absolute;
+        left: 150px;
+        top: 120px;
+      }
+      .circle {
+        position: absolute;
+        top: 114px;
+        left: 250px;
+        background: red;
+        border-radius: 50%;
+        width: 100px;
+        height: 135px;
+        z-index: 3;
+        color: #fff;
+        font-size: 16px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        cursor: pointer;
+        /*background: url(../images/shadow1.png) no-repeat scroll 100% 100%;*/
+        background-size: 100% 100%;
+        -webkit-background-size: 100% 100%;
+      }
+      .container {
+        position: relative;
+        transform: rotateX(20deg);
+        width: 800px;
+        height: 800px;
+        margin: 0 auto;
+      } /*此代码非源码，仅为演示用，下载源码请到：HTTP://WWW.BOOTSTrapmb.com*/ /*此代码非源码，仅为演示用，下载源码请到：HTTP://WWW.BOOTSTrapmb.com*/ /*此代码非源码，仅为演示用，下载源码请到：HTTP://WWW.BOOTSTrapmb.com*/
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="container">
+        <div class="circle"><span style="line-height: 84px">圆心</span></div>
+        <div class="borther">
+          <div id="lopp"></div>
+          <div
+            class="ball"
+            onmouseenter="onMouseGo()"
+            onmouseout="onMouseMove()"
+          >
+            1
+          </div>
+          <div
+            class="ball"
+            onmouseenter="onMouseGo()"
+            onmouseout="onMouseMove()"
+          >
+            2
+          </div>
+          <div
+            class="ball"
+            onmouseenter="onMouseGo()"
+            onmouseout="onMouseMove()"
+          >
+            3
+          </div>
+          <div
+            class="ball"
+            onmouseenter="onMouseGo()"
+            onmouseout="onMouseMove()"
+          >
+            4
+          </div>
+          <div
+            class="ball"
+            onmouseenter="onMouseGo()"
+            onmouseout="onMouseMove()"
+          >
+            5
+          </div>
+        </div>
+        <div class="borther2">
+          <div id="lopp2"></div>
+          <div
+            class="ball ball2"
+            onmouseenter="onMouseGo()"
+            onmouseout="onMouseMove()"
+          >
+            1
+          </div>
+          <div
+            class="ball ball2"
+            onmouseenter="onMouseGo()"
+            onmouseout="onMouseMove()"
+          >
+            2
+          </div>
+          <div
+            class="ball ball2"
+            onmouseenter="onMouseGo()"
+            onmouseout="onMouseMove()"
+          >
+            3
+          </div>
+          <div
+            class="ball ball2"
+            onmouseenter="onMouseGo()"
+            onmouseout="onMouseMove()"
+          >
+            4
+          </div>
+          <div
+            class="ball ball2"
+            onmouseenter="onMouseGo()"
+            onmouseout="onMouseMove()"
+          >
+            5
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      var items = document.querySelectorAll(".ball");
+      for (var i = 0; i < items.length; i++) {
+        (function (i) {
+          items[i].style["animation-delay"] =
+            -5 - 4 * i + "s," + -4 * i + "s," + -4 * i + "s";
+        })(i);
+      }
+      function onMouseGo() {
+        for (var i = 0; i < items.length; i++) {
+          (function (i) {
+            items[i].classList.add("active");
+          })(i);
+        }
+      }
+      function onMouseMove() {
+        for (var i = 0; i < items.length; i++) {
+          (function (i) {
+            items[i].classList.remove("active");
+          })(i);
+        }
+      }
+    </script>
+  </body>
+</html>

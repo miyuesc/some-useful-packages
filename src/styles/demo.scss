@@ -40,15 +40,6 @@
   position: relative;
   box-sizing: border-box;
   padding: 12px;
-  &::before {
-    content: "";
-    position: absolute;
-    top: 12px;
-    left: 0;
-    bottom: 12px;
-    width: 1px;
-    background-color: #d2d2d2;
-  }
 }
 
 .slide-right-enter-active,

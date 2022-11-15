@@ -120,7 +120,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .demo-content {
   margin: 20px auto;
   width: 50vw;
