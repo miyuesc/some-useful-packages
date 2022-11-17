@@ -10,28 +10,46 @@
           :key="i"
           :style="{ '--star-index': i, '--ans-step': animationStep }"
         >
-          <div
-            :class="['star-content', { 'is-active': activeIndex === k }]"
-            ref="starContents"
-            @mouseover="hoverStar(k)"
-            @mouseleave="leaveStar"
+          <el-popover
+            placement="top-start"
+            title="标题"
+            width="200"
+            trigger="hover"
+            content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+            v-model="popoverMap[k]"
           >
-            <div class="star-info-box">
-              <div class="star-bg"></div>
-              <div class="star-info">{{ i }}</div>
+            <div
+              :class="['star-content', { 'is-active': activeIndex === k }]"
+              slot="reference"
+              ref="starContents"
+              @mouseenter="hoverStar(k)"
+              @mouseleave="leaveStar"
+            >
+              <div class="star-info-box">
+                <div class="star-bg"></div>
+                <div class="star-info">{{ i }}</div>
+              </div>
             </div>
-          </div>
+          </el-popover>
         </div>
       </div>
+    </div>
+
+    <div class="info-tips" ref="tip">
+      <p>11111111</p>
+      <p>11111111</p>
+      <p>11111111</p>
+      <p>11111111</p>
     </div>
   </div>
 </template>
 
 <script>
+// const PopperJS = require("element-ui/lib/utils/popper");
 import { debounce } from "jsoneditor/src/js/util";
 
 export default {
-  name: "StarAround",
+  name: "StarAround2",
   data() {
     return {
       timeCycle: 36, // 36s
@@ -39,7 +57,8 @@ export default {
       animationStep: 0,
       activeIndex: -1,
       oldActiveIndex: -1,
-      stars: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      stars: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      popoverMap: {}
       // stars: [1]
     };
   },
@@ -52,9 +71,11 @@ export default {
     initTimeout: debounce(function (index = 0) {
       this.oldActiveIndex = index;
       this.activeIndex = index;
+      this.$set(this.popoverMap, index, true);
 
       // 恢复动画
       this.timeout1 = setTimeout(() => {
+        this.$set(this.popoverMap, index, false);
         this.activeIndex = -1;
         index = index - 1;
         index < 0 && (index = this.stars.length - 1);
@@ -68,17 +89,23 @@ export default {
         //  暂停时长
       }, this.stayTime);
     }, 200),
-
-    hoverStar(i) {
-      console.log(this.timeout1, this.timeout2);
+    hoverStar(index) {
+      clearTimeout();
       clearTimeout(this.timeout1);
       clearTimeout(this.timeout2);
-      this.activeIndex = i;
-      const el = this.$refs.starContents[i - 1];
-      setTimeout(() => this.initTimeout(this.oldActiveIndex), 2000);
+      this.activeIndex = index;
+      this.oldActiveIndex = index;
     },
-    leaveStar(i) {
+    leaveStar() {
       this.activeIndex = -1;
+      this.oldActiveIndex = this.oldActiveIndex - 1;
+      this.oldActiveIndex < 0 && (this.oldActiveIndex = this.stars.length - 1);
+
+      let leaveTimer = setTimeout(() => {
+        this.initTimeout(this.oldActiveIndex);
+        clearTimeout(leaveTimer);
+        leaveTimer = null;
+      }, this.animationStep * 1000);
     }
   }
 };
@@ -107,6 +134,7 @@ export default {
   position: relative;
   transform: skewX(-60deg);
   transform-origin: center;
+  color: #ffffff;
 }
 .center {
   position: absolute;
@@ -118,7 +146,8 @@ export default {
   transform: skewX(60deg);
   border-radius: 50%;
   background: linear-gradient(135deg, var(--glossy-red) 20%, transparent 100%);
-  filter: drop-shadow(0 0 2rem var(--glossy-red)) blur(1px);
+  text-align: center;
+  line-height: 240px;
 }
 .star {
   position: absolute;
@@ -126,7 +155,7 @@ export default {
   top: calc(50% - 223px);
   width: 446px;
   height: 446px;
-  border-width: 2px;
+  border-width: 1px;
   border-style: solid;
   border-radius: 50%;
   animation: solar-revolution 36s linear infinite;

@@ -32,6 +32,9 @@ export default {
       }
     };
   },
+  mounted() {
+    this.active.name = this.menus.find((item) => item.name === this.$route.name).name;
+  },
   methods: {
     setActive(item) {
       this.active.name = item.name;
