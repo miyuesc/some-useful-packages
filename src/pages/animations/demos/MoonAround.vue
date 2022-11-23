@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <div class="orbit"></div>
+    <div class="center"></div>
     <div class="planet">
       <div class="ball">
         <p>集团</p>
@@ -40,7 +40,7 @@ $inner-shadow: inset 0.2rem 0.2rem 0.5rem $greyLight-2, inset -0.2rem -0.2rem 0.
 @keyframes planet-rotate {
   0% {
     z-index: 0;
-    transform: rotate(60deg) scaleY(0.5) rotate(0);
+    transform: rotate(-66.5deg) scaleY(0.5) rotate(0);
   }
   40% {
     z-index: 0;
@@ -53,15 +53,15 @@ $inner-shadow: inset 0.2rem 0.2rem 0.5rem $greyLight-2, inset -0.2rem -0.2rem 0.
   }
   100% {
     z-index: 0;
-    transform: rotate(60deg) scaleY(0.5) rotate(360deg);
+    transform: rotate(-66.5deg) scaleY(0.5) rotate(-360deg);
   }
 }
 @keyframes self-rotate {
   0% {
-    transform: rotate(0) scaleY(2) rotate(-60deg);
+    transform: rotate(0) scaleY(2) rotate(66.5deg);
   }
   100% {
-    transform: rotate(-360deg) scaleY(2) rotate(-60deg);
+    transform: rotate(360deg) scaleY(2) rotate(66.5deg);
   }
 }
 
@@ -73,7 +73,7 @@ $inner-shadow: inset 0.2rem 0.2rem 0.5rem $greyLight-2, inset -0.2rem -0.2rem 0.
   border-radius: 50%;
   animation: planet-rotate 5s linear infinite;
 }
-.orbit {
+.center {
   position: absolute;
   border: 8px solid #8b5fda;
   background-color: #c3b1e3;
