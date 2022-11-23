@@ -64,14 +64,14 @@ export default {
   methods: {
     // 自动设置高亮
     autoHighlight(index = 0, timeSet) {
+      // 当前动画开始时刻
+      this.currentActiveTime = new Date().getTime();
       // 激活序号
       this.activeIndex = this.oldActiveIndex = index;
       clearTimeout(this.autoTimer);
       // 下一个激活对象
       index = index - 1;
       index < 0 && (index = this.stars.length - 1);
-      // 当前动画开始时刻
-      this.currentActiveTime = new Date().getTime();
       // 如果有确定时间，则直接设置定时器
       if (timeSet) {
         this.autoTimer = setTimeout(() => {
@@ -87,7 +87,7 @@ export default {
       if (new Date().getTime() - this.currentActiveTime >= this.animationStep) {
         this.autoHighlight(nextIndex);
       } else {
-        this.calculateTimer = setTimeout(() => this.calculateAnimationTime(nextIndex), 50);
+        this.calculateTimer = setTimeout(() => this.calculateAnimationTime(nextIndex), 20);
       }
     },
 
