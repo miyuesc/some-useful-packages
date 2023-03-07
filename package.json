@@ -1,7 +1,7 @@
 {
   "name": "some-useful-packages",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "start": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
