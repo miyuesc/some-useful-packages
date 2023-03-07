@@ -29,16 +29,33 @@ export default {
       menus: copsMenu,
       active: {
         name: copsMenu[0]?.name || 0
-      }
+      },
+      testArr: [{}],
+      testObj: { a: "1" }
     };
   },
   mounted() {
-    this.active.name = this.menus.find((item) => item.name === this.$route.name).name;
+    console.log(this);
+    this.active.name = this.menus.find((item) => item.name === this.$route.name)?.name;
   },
   methods: {
     setActive(item) {
       this.active.name = item.name;
       this.$router.push(`/components/${item.path}`);
+    }
+  },
+  watch: {
+    testArr(val) {
+      console.log("watch array", val);
+    },
+    "testArr.length"(val) {
+      console.log("watch array length", val);
+    },
+    testObj(val) {
+      console.log("watch object", val);
+    },
+    "testObj.a"(val) {
+      console.log("watch object property", val);
     }
   }
 };
