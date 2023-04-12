@@ -28,7 +28,7 @@ export default {
     },
     gap: {
       type: Number,
-      default: 12
+      default: 24
     },
     leftWidth: {
       type: Number,
@@ -48,6 +48,7 @@ export default {
 <style lang="scss">
 .timeline-fragments {
   position: relative;
+  padding-left: 24px;
   &::after {
     content: "";
     position: absolute;

@@ -1,5 +1,8 @@
 <template>
   <div class="timeline-fragment-item" :style="computedStyles">
+    <div class="fragment-expand-btn" v-if="fragment.children && fragment.children.length" @click="changeChildrenStatus">
+      <i class="el-icon-arrow-right" :style="{ transform: `rotate(${showChildren ? '90' : '0'}deg)` }" />
+    </div>
     <div class="item-title-box" @click="changeDetailsStatus">
       <span>{{ fragment.label }}</span>
       <span style="font-size: 12px; color: #ccc; margin-left: 20px">{{ fragment.address }}</span>
@@ -20,15 +23,17 @@
         </div>
       </div>
     </el-collapse-transition>
-    <service-timeline-fragments-item
-      v-show="showChildren"
-      v-for="frag in fragment.children"
-      :key="frag.id"
-      :gap="gap"
-      :time-range="timeRange"
-      :level="level + 1"
-      :fragment="frag"
-    />
+    <el-collapse-transition>
+      <service-timeline-fragments-item
+        v-show="showChildren"
+        v-for="frag in fragment.children"
+        :key="frag.id"
+        :gap="gap"
+        :time-range="timeRange"
+        :level="level + 1"
+        :fragment="frag"
+      />
+    </el-collapse-transition>
   </div>
 </template>
 
@@ -54,8 +59,7 @@ export default {
       type: String
     },
     gap: {
-      type: Number,
-      default: 12
+      type: Number
     },
     leftWidth: {
       type: Number,
@@ -106,21 +110,37 @@ export default {
   grid-column-start: 1;
   grid-column-end: 3;
   display: grid;
-  grid-template-rows: 24px min-content auto;
+  grid-template-rows: 36px min-content auto;
   box-sizing: border-box;
   border-left: 1px solid #eeeeee;
+  margin-left: 24px; // 显示展开按钮
+  position: relative;
+  .fragment-expand-btn {
+    position: absolute;
+    left: -24px;
+    top: 0;
+    width: 20px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all ease 0.2s;
+    cursor: pointer;
+  }
 
   .item-title-box,
   .item-cursor-box {
     position: relative;
-    line-height: 24px;
+    line-height: 36px;
     cursor: pointer;
     border-bottom: 1px solid transparent;
     &::before {
       content: "";
       position: absolute;
       left: 0;
-      width: 2px;
+      width: 4px;
       height: 100%;
       background-color: var(--main-color);
     }
@@ -135,13 +155,17 @@ export default {
     .timeline-inner {
       height: 12px;
       position: absolute;
-      top: 6px;
-      border-radius: 2px;
-      background-color: var(--bg-color);
+      top: 12px;
+      border-radius: 4px;
+      background-color: var(--main-color);
     }
   }
-  .item-cursor-box {
+  .item-cursor-box.item-cursor-box.item-cursor-box {
     background-color: var(--bg-color);
+  }
+  .item-details-box {
+    padding: 8px;
+    border-top: 4px solid var(--main-color);
   }
 
   .item-timeline-box,
