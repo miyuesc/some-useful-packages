@@ -65,6 +65,7 @@ export default {
                       id: "1-1-1-1",
                       label: "Service1-1-1-1",
                       address: "https://127.0.0.111",
+                      error: true,
                       times: [500, 900],
                       color: randomHexColor(),
                       tags: ["tag7", "tag8", "tag9"],
@@ -100,6 +101,7 @@ export default {
               address: "https://127.0.0.21",
               times: [600, 1600],
               color: randomHexColor(),
+              error: true,
               tags: ["tag16", "tag17", "tag18"],
               process: [{ label: "label2-1", value: "value 2222222-1" }],
               children: [
@@ -108,6 +110,7 @@ export default {
                   label: "Service2-1-1",
                   address: "https://127.0.0.211",
                   times: [800, 1150],
+                  error: true,
                   color: randomHexColor(),
                   tags: ["tag19", "tag20", "tag21"],
                   process: [{ label: "label2-1-1", value: "value 2222222-1-1" }]

@@ -4,11 +4,14 @@
       <i class="el-icon-arrow-right" :style="{ transform: `rotate(${showChildren ? '90' : '0'}deg)` }" />
     </div>
     <div class="item-title-box" @click="changeDetailsStatus">
+      <i class="el-icon-info" style="color: red" v-if="fragment.error" />
       <span>{{ fragment.label }}</span>
       <span style="font-size: 12px; color: #ccc; margin-left: 20px">{{ fragment.address }}</span>
     </div>
     <div class="item-timeline-box">
-      <div class="timeline-inner" :style="computedInnerStyles"></div>
+      <div class="timeline-inner" :style="computedInnerStyles">
+        <span>{{ fragment.times[1] - fragment.times[0] }}</span>
+      </div>
     </div>
     <div
       class="item-cursor-box with-height-translation"
@@ -86,12 +89,13 @@ export default {
       const offsetLeft = this.gap + 1; // 边框占据1像素
       const leftGap = offsetLeft * this.level + this.gap; // 累加左边距
       const color = this.color || this.fragment.color || randomHexColor();
+      const btnPos = this.level > 0 ? this.gap : 0;
       return {
         "--main-color": color,
         "--bg-color": color + "33",
         "--detail-max-height": `${this.detailMaxHeight}px`,
-        width: `calc(100% - ${offsetLeft}px)`,
-        marginLeft: `${this.level > 0 ? this.gap : 0}px`,
+        width: `calc(100% - ${btnPos}px)`,
+        marginLeft: `${btnPos}px`, // 显示展开按钮
         gridTemplateColumns: `${this.leftWidth - leftGap}px 1fr`
       };
     },
