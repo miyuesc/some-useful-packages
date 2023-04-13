@@ -3,8 +3,8 @@
     <div class="fragment-expand-btn" v-if="fragment.children && fragment.children.length" @click="changeChildrenStatus">
       <i class="el-icon-arrow-right" :style="{ transform: `rotate(${showChildren ? '90' : '0'}deg)` }" />
     </div>
-    <div class="item-title-box" @click="changeDetailsStatus">
-      <i class="el-icon-info" style="color: red" v-if="fragment.error" />
+    <div class="item-title-box" :class="{ 'is-error': fragment.error }" @click="changeDetailsStatus">
+      <i class="el-icon-info" v-if="fragment.error" />
       <span>{{ fragment.label }}</span>
       <span style="font-size: 12px; color: #ccc; margin-left: 20px">{{ fragment.address }}</span>
     </div>
@@ -79,6 +79,24 @@ export default {
   },
   data() {
     return {
+      colors: [
+        "#A239FB",
+        "#6325DF",
+        "#5752FA",
+        "#306FFC",
+        "#038FF5",
+        "#25ABE6",
+        "#02D8FF",
+        "#0eebeb",
+        "#1DFFEE",
+        "#08F4BD",
+        "#12DBbE",
+        "#13C565",
+        "#1EDD51",
+        "#A2E430",
+        "#FFE922",
+        "#FFC600"
+      ],
       tree: null,
       showDetails: false,
       showChildren: true
@@ -88,7 +106,7 @@ export default {
     computedStyles() {
       const offsetLeft = this.gap + 1; // 边框占据1像素
       const leftGap = offsetLeft * this.level + this.gap; // 累加左边距
-      const color = this.color || this.fragment.color || randomHexColor();
+      const color = this.color || this.fragment.color || this.colors[this.level % 16];
       const btnPos = this.level > 0 ? this.gap : 0;
       return {
         "--main-color": color,

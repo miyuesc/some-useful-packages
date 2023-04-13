@@ -61,6 +61,10 @@ export default {
     stepNum: {
       type: Number,
       default: 4
+    },
+    warningColor: {
+      type: String,
+      default: "#FC3452"
     }
   },
   data() {
@@ -71,6 +75,7 @@ export default {
   computed: {
     computedStyles() {
       return {
+        "--warning-color": this.warningColor,
         "--label-width": `${this.leftWidth}px`,
         "--header-height": `${this.headerHeight}px`
       };
@@ -232,6 +237,9 @@ export default {
   }
   .item-title-box {
     padding-left: 8px;
+    &.is-error {
+      color: var(--warning-color);
+    }
     //border-bottom: 1px solid #dcdcdc;
   }
   .item-timeline-box {
