@@ -1,6 +1,16 @@
 <template>
   <div class="demo-page">
-    <service-timeline-fragments :fragments="data" :time-range="timeRange" />
+    <div>
+      <el-button @click="expandAll">展开全部</el-button>
+      <el-button @click="collapseAll">收起全部</el-button>
+      <el-button @click="expandAllChildren">展开全部子节点</el-button>
+      <el-button @click="collapseAllChildren">收起全部子节点</el-button>
+      <el-button @click="expandAllDetails">展开全部详情</el-button>
+      <el-button @click="collapseAllDetails">收起全部详情</el-button>
+    </div>
+    <div style="margin-top: 20px; width: 1200px">
+      <service-timeline-fragments :fragments="data" :time-range="timeRange" ref="fragments" />
+    </div>
   </div>
 </template>
 
@@ -109,6 +119,26 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    expandAll() {
+      this.$refs.fragments.expandAll();
+    },
+    collapseAll() {
+      this.$refs.fragments.collapseAll();
+    },
+    expandAllChildren() {
+      this.$refs.fragments.expandAllChildren();
+    },
+    collapseAllChildren() {
+      this.$refs.fragments.collapseAllChildren();
+    },
+    expandAllDetails() {
+      this.$refs.fragments.expandAllDetails();
+    },
+    collapseAllDetails() {
+      this.$refs.fragments.collapseAllDetails();
+    }
   }
 };
 </script>
