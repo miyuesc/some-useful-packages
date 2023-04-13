@@ -9,7 +9,15 @@
       <el-button @click="collapseAllDetails">收起全部详情</el-button>
     </div>
     <div style="margin-top: 20px; width: 1200px">
-      <service-timeline-fragments :fragments="data" :time-range="timeRange" ref="fragments" />
+      <service-timeline-fragments
+        :fragments="data"
+        :time-range="timeRange"
+        ref="fragments"
+        @details-expanded="nodeDetailsExpanded"
+        @details-collapsed="nodeDetailsCollapsed"
+        @children-expanded="nodeChildrenExpanded"
+        @children-collapsed="nodeChildrenCollapsed"
+      />
     </div>
   </div>
 </template>
@@ -138,6 +146,19 @@ export default {
     },
     collapseAllDetails() {
       this.$refs.fragments.collapseAllDetails();
+    },
+
+    nodeDetailsExpanded(data, node) {
+      console.log("nodeDetailsExpanded", data, node);
+    },
+    nodeDetailsCollapsed(data, node) {
+      console.log("nodeDetailsCollapsed", data, node);
+    },
+    nodeChildrenExpanded(data, node) {
+      console.log("nodeChildrenExpanded", data, node);
+    },
+    nodeChildrenCollapsed(data, node) {
+      console.log("nodeChildrenCollapsed", data, node);
     }
   }
 };

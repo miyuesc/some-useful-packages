@@ -10,9 +10,13 @@
     <div class="item-timeline-box">
       <div class="timeline-inner" :style="computedInnerStyles"></div>
     </div>
-    <div class="item-cursor-box with-height-translation" :class="{ expand: showDetails }"></div>
+    <div
+      class="item-cursor-box with-height-translation"
+      :class="{ expand: showDetails }"
+      @click="changeDetailsStatus"
+    ></div>
     <div class="item-details-box with-height-translation" :class="{ expand: showDetails }">
-      <div class="details-table">
+      <div :class="['details-content', detailClasses]">
         <div>Tags:</div>
         <div>{{ (fragment.tags || []).join("，") }}</div>
         <div>Process:</div>
@@ -27,6 +31,8 @@
         :level="level + 1"
         :fragment="frag"
         :left-width="leftWidth"
+        :detail-max-height="detailMaxHeight"
+        :detail-classes="detailClasses"
         ref="childrenRefs"
       />
     </el-collapse-transition>
@@ -59,6 +65,13 @@ export default {
     },
     leftWidth: {
       type: Number
+    },
+    detailMaxHeight: {
+      type: Number
+    },
+    detailClasses: {
+      type: String,
+      default: ""
     }
   },
   data() {
@@ -76,8 +89,8 @@ export default {
       return {
         "--main-color": color,
         "--bg-color": color + "33",
+        "--detail-max-height": `${this.detailMaxHeight}px`,
         width: `calc(100% - ${offsetLeft}px)`,
-        // width: `calc(100% - ${offsetLeft}px)`,
         marginLeft: `${this.level > 0 ? this.gap : 0}px`,
         gridTemplateColumns: `${this.leftWidth - leftGap}px 1fr`
       };
@@ -104,13 +117,18 @@ export default {
     changeDetailsStatus() {
       this.showDetails = !this.showDetails;
       if (this.showDetails) {
-        this.tree.$emit("node-expand", this.fragment, this);
+        this.tree.$emit("details-expanded", this.fragment, this);
       } else {
-        this.tree.$emit("node-collapse", this.fragment, this);
+        this.tree.$emit("details-collapsed", this.fragment, this);
       }
     },
     changeChildrenStatus() {
       this.showChildren = !this.showChildren;
+      if (this.showChildren) {
+        this.tree.$emit("children-expanded", this.fragment, this);
+      } else {
+        this.tree.$emit("children-collapsed", this.fragment, this);
+      }
     },
     expandAll() {
       this.expandAllChildren();
@@ -122,27 +140,31 @@ export default {
     },
     expandAllChildren() {
       this.showChildren = true;
-      this.$refs.childrenRefs &&
-        this.$refs.childrenRefs.length &&
-        this.$refs.childrenRefs.forEach((child) => child.expandAllChildren());
+      this.$nextTick(() => {
+        if (this.$refs.childrenRefs && this.$refs.childrenRefs.length) {
+          this.$refs.childrenRefs.forEach((child) => child.expandAllChildren());
+        }
+      });
     },
     collapseAllChildren() {
-      this.showChildren = false;
-      this.$refs.childrenRefs &&
-        this.$refs.childrenRefs.length &&
+      if (this.$refs.childrenRefs && this.$refs.childrenRefs.length) {
         this.$refs.childrenRefs.forEach((child) => child.collapseAllChildren());
+      }
+      this.showChildren = false;
     },
     expandAllDetails() {
       this.showDetails = true;
-      this.$refs.childrenRefs &&
-        this.$refs.childrenRefs.length &&
-        this.$refs.childrenRefs.forEach((child) => child.expandAllDetails());
+      this.$nextTick(() => {
+        if (this.$refs.childrenRefs && this.$refs.childrenRefs.length) {
+          this.$refs.childrenRefs.forEach((child) => child.expandAllDetails());
+        }
+      });
     },
     collapseAllDetails() {
-      this.showDetails = false;
-      this.$refs.childrenRefs &&
-        this.$refs.childrenRefs.length &&
+      if (this.$refs.childrenRefs && this.$refs.childrenRefs.length) {
         this.$refs.childrenRefs.forEach((child) => child.collapseAllDetails());
+      }
+      this.showDetails = false;
     }
   }
 };

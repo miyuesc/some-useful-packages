@@ -7,6 +7,8 @@
         :level="0"
         :fragment="frag"
         :left-width="leftWidth"
+        :detail-max-height="detailMaxHeight"
+        :detail-classes="detailClasses"
         ref="childrenRefs"
       />
     </el-collapse-transition>
@@ -35,7 +37,20 @@ export default {
     leftWidth: {
       type: Number,
       default: 400
+    },
+    detailMaxHeight: {
+      type: Number,
+      default: 120
+    },
+    detailClasses: {
+      type: String,
+      default: ""
     }
+  },
+  data() {
+    return {
+      isTree: true
+    };
   },
   computed: {
     computedStyles() {
@@ -43,9 +58,6 @@ export default {
         "--label-width": `${this.leftWidth}px`
       };
     }
-  },
-  created() {
-    this.isTree = true;
   },
   methods: {
     expandAll() {
@@ -57,28 +69,24 @@ export default {
       this.collapseAllDetails();
     },
     expandAllChildren() {
-      this.showChildren = true;
-      this.$refs.childrenRefs &&
-        this.$refs.childrenRefs.length &&
+      if (this.$refs.childrenRefs && this.$refs.childrenRefs.length) {
         this.$refs.childrenRefs.forEach((child) => child.expandAllChildren());
+      }
     },
     collapseAllChildren() {
-      this.showChildren = false;
-      this.$refs.childrenRefs &&
-        this.$refs.childrenRefs.length &&
+      if (this.$refs.childrenRefs && this.$refs.childrenRefs.length) {
         this.$refs.childrenRefs.forEach((child) => child.collapseAllChildren());
+      }
     },
     expandAllDetails() {
-      this.showDetails = true;
-      this.$refs.childrenRefs &&
-        this.$refs.childrenRefs.length &&
+      if (this.$refs.childrenRefs && this.$refs.childrenRefs.length) {
         this.$refs.childrenRefs.forEach((child) => child.expandAllDetails());
+      }
     },
     collapseAllDetails() {
-      this.showDetails = false;
-      this.$refs.childrenRefs &&
-        this.$refs.childrenRefs.length &&
+      if (this.$refs.childrenRefs && this.$refs.childrenRefs.length) {
         this.$refs.childrenRefs.forEach((child) => child.collapseAllDetails());
+      }
     }
   }
 };
@@ -123,8 +131,10 @@ export default {
     justify-content: center;
     font-size: 18px;
     font-weight: bold;
-    transition: all ease 0.2s;
     cursor: pointer;
+    i {
+      transition: all ease 0.2s;
+    }
   }
 
   .item-title-box,
@@ -173,7 +183,7 @@ export default {
     transition-delay: 0s;
     &.expand {
       border-top-width: 4px;
-      transition-delay: 0.4s;
+      transition-delay: 0.2s;
     }
   }
 
@@ -185,14 +195,21 @@ export default {
   //  动画部分
   .item-cursor-box,
   .item-details-box {
-    transition: border ease 0.2s, max-height ease 0.6s;
+    transition: border ease 0.2s, max-height ease 0.4s;
     overflow: hidden;
     &.with-height-translation {
       max-height: 0;
     }
     &.with-height-translation.expand {
-      max-height: 200px;
+      max-height: var(--detail-max-height);
     }
+  }
+
+  .details-content {
+    height: calc(var(--detail-max-height) - 4px);
+    box-sizing: border-box;
+    padding: 8px;
+    overflow-y: auto;
   }
 }
 
