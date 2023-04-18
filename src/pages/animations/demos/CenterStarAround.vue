@@ -1,7 +1,13 @@
 <template>
   <div class="center-star-around">
     <div class="center-earth-content">
-      <div class="around-box">
+      <div
+        class="around-box"
+        :style="{
+          '--ans-step': animationStep,
+          '--ans-cycle': timeCycle + 'ms'
+        }"
+      >
         <div class="center-earth"></div>
         <div class="center-orbit"></div>
 
@@ -11,11 +17,7 @@
           :class="['star', { 'is-stop': useStop, 'is-active': activeIndex === k }]"
           v-for="(item, k) in stars"
           :key="k"
-          :style="{
-            '--star-index': k + 1,
-            '--ans-step': animationStep,
-            '--ans-cycle': timeCycle + 'ms'
-          }"
+          :style="{ '--star-index': k + 1 }"
         >
           <div
             :class="['star-content', { 'is-active': activeIndex === k }]"
@@ -24,7 +26,7 @@
           >
             <div class="details-box" v-show="activeIndex === k">111111111</div>
             <div class="star-bg-image"></div>
-            <div class="star-name">{{ item }}</div>
+            <div class="star-name">{{ item.name }}</div>
           </div>
         </div>
       </div>
@@ -35,7 +37,7 @@
 
 <script>
 export default {
-  name: "CenterStarAround",
+  name: "CenterStarAroundDemo",
   props: {
     timeCycle: {
       type: Number,
