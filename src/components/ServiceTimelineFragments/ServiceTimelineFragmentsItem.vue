@@ -43,8 +43,6 @@
 </template>
 
 <script>
-import { randomHexColor } from "../../../utils/colors";
-
 export default {
   name: "ServiceTimelineFragmentsItem",
   props: {
