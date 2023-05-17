@@ -50,8 +50,6 @@ export default {
 .splitting-image-cover {
   max-width: 800px;
   max-height: 494px;
-  //  padding: 2em;
-  //  position: relative;
   position: fixed;
   top: 0;
   left: 0;
